@@ -36,7 +36,7 @@ driveControlport.Position = [50 110 850 200];
 driving = Stateflow.State(driveControlCom);
 %setName from MUML model
 driving.Name = "driving";
-% x, y, lenghth, width
+% x, y, width and len
 driving.Position = [50 410 850 200];
 
 %Add States 
