@@ -4,7 +4,11 @@ function ch = createStateflowCharts
 %prev_machines = find(rt,"-isa","Stateflow.Machine");
 
 %new_system('driveControl_StateflowChart')
-sfnew 'driveControl_StateflowChart8';
+
+sfnew 'driveControl_StateflowChart10';
+
+%new_system("driveControl_StateflowChart10","Library");
+
 
 ch = find(sfroot,"-isa","Stateflow.Chart");
 ch.Name = "driveControl_Chart";
