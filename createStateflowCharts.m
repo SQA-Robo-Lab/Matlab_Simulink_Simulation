@@ -5,13 +5,13 @@ function ch = createStateflowCharts
 
 %new_system('driveControl_StateflowChart')
 
-sfnew 'driveControl_StateflowChart10';
+sfnew 'driveControl_StateflowChart139';
 
 %new_system("driveControl_StateflowChart10","Library");
 
 
 ch = find(sfroot,"-isa","Stateflow.Chart");
-ch.Name = "driveControl_Chart";
+%ch.Name = "driveControl_Chart1";
 
 
 chart2 = Stateflow.State(ch);
@@ -80,9 +80,20 @@ frontDistance.Name = "frontDistance";
 frontDistance.DataType = "Int32";
 frontDistance.Scope = "Input";
 
+%Add input 
+y = Stateflow.Data(ch);
+y.Name = "rearDistance";
+y.Scope = "Input";
+
+%Add output
 y = Stateflow.Data(ch);
 y.Name = "driveControl_send";
 y.Scope = "Output";
+
+y = Stateflow.Data(ch);
+y.Name = "velocity";
+y.Scope = "Output";
+
 
 
 %Add Transition
