@@ -1,0 +1,38 @@
+[comment encoding = UTF-8 /]
+[module generateInstanceConf('http://www.muml.org/simulink/1.0.0', 'http://www.muml.org/simulink/stateflow/1.0.0')]
+
+
+[template public generateInstance(aSimulinkLibrary : SimulinkLibrary)]
+
+[comment @main/]
+[if aSimulinkLibrary.name.contains('instance')]
+[for (simModel:SimulinkModel|aSimulinkLibrary.allBlocks)]
+[file (simModel.name.concat('.m'), false, 'UTF-8')]
+modelname = '[simModel.name/]'
+open_system(new_system(modelname));
+
+[for (subS:SubSystem|simModel.allBlocks)]
+
+model = '[subS.id/]';
+load_system(model);
+
+add_block('built-in/Subsystem','[subS.parent.name/]/[subS.name/]')
+Simulink.BlockDiagram.copyContentsToSubsystem('[subS.id/]','[subS.parent.name/]/[subS.name/]');
+set_param('[simModel.name/]/[subS.name/]','TreatAsAtomicUnit','on');
+
+Simulink.SubSystem.convertToModelReference(...
+   '[simModel.name/]/[subS.name/]', ...
+   '[subS.name/]', ...
+   'ReplaceSubsystem',true);
+
+[/for]
+Simulink.BlockDiagram.arrangeSystem(modelname);
+save_system(modelname);
+close_system(modelname);
+[/file]
+[/for]
+[/if]
+
+
+
+[/template]

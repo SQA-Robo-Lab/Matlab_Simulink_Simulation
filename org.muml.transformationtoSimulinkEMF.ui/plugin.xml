@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.*"
+            id="org.muml.transformationtoSimulinkEMF.ui.popupMenus.contribution.IFile">
+         <menu id="org.eclipse.acceleo.module.menu" label="Acceleo Model to Text" path="additionsAcceleo">
+               <groupMarker name="acceleo"/> 
+         </menu>
+         <action
+               class="org.muml.transformationtoSimulinkEMF.ui.popupMenus.AcceleoGenerateTransformationtoSimulinkEMFAction"
+               enablesFor="+"
+               id="org.muml.transformationtoSimulinkEMF.ui.popupMenus.acceleoGenerateTransformationtoSimulinkEMFAction"
+               icon="icons/default.gif"
+               label="Generate TransformationtoSimulinkEMF"
+               menubarPath="org.eclipse.acceleo.module.menu/acceleo"/>
+      </objectContribution>
+   </extension>
+</plugin>

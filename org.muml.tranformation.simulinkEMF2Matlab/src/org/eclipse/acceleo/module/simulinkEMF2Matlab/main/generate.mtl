@@ -1,0 +1,56 @@
+[comment encoding = UTF-8 /]
+[module generate('http://www.muml.org/simulink/1.0.0', 'http://www.muml.org/simulink/stateflow/1.0.0')]
+
+
+
+[template public generateComponents(aComponent : SimulinkLibrary)]
+
+
+[comment @main/]
+[if aComponent.name.contains('component')]
+[for (sub:SubSystem|aComponent.subSystems)]
+[file (sub.name.concat('.m'), false, 'UTF-8')]
+modelname = '[sub.name/]'; 
+open_system(new_system(modelname,"Subsystem"));
+%Add Ports
+[for (ports:Block|aComponent.subSystems.allBlocks)]
+[if ports.name.startsWith('IN_') and sub.name = ports.parent.name ]
+%Add Inports
+add_block('simulink/Sources/In1','[sub.name/]/[ports.name/]');
+[/if]
+[if ports.name.startsWith('OUT_') and sub.name = ports.parent.name]
+%Add Outports
+add_block('simulink/Ports & Subsystems/Out1','[sub.name/]/[ports.name/]');
+[/if]
+[if ports.name.startsWith('BUS_') and sub.name = ports.parent.name]
+%Add IN/Out Bus
+%Add Bus input for discrete ports
+add_block('simulink/Ports & Subsystems/In Bus Element', ['['/]gcs '/In Bus Element']',...,
+    'MakeNameUnique','on',..., 
+    'PortName', "[ports.name.replace('BUS_','')+'_recv'/]");
+add_block('simulink/Ports & Subsystems/Out Bus Element', ['['/]gcs '/Out Bus Element']',...,
+    'MakeNameUnique','on',..., 
+    'PortName', "[ports.name.replace('BUS_','')+'_send'/]");
+[/if]
+[if ports.id.endsWith(sub.name)]
+%add Stateflowchart to Subsystem
+load_system('[ports.name/]');
+Simulink.BlockDiagram.copyContentsToSubsystem('[ports.name/]',modelname)
+
+[/if]
+[/for]
+[for (subsy : SubSystem |sub.subSystems)]
+%Add subb 
+load_system('[subsy.id/]');
+add_block('built-in/Subsystem', '[sub.name /]/[subsy.name/]');
+Simulink.BlockDiagram.copyContentsToSubsystem('[subsy.id/]','[sub.name /]/[subsy.name/]');
+[/for]
+Simulink.BlockDiagram.arrangeSystem([sub.name/]);
+save_system([sub.name/]);
+close_system([sub.name/]);
+[/file] 
+[/for]
+[/if]
+[/template]
+
+

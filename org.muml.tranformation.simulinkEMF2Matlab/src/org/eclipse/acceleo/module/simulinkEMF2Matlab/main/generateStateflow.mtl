@@ -1,0 +1,148 @@
+[comment encoding = UTF-8 /]
+[module generateStateflow('http://www.muml.org/simulink/1.0.0',
+ 'http://www.muml.org/simulink/stateflow/1.0.0')]
+
+
+[template public generateElement(chart  : stateflow::Chart)]
+
+[comment @main/]
+[if chart.name = chart.name.toUpperFirst()]
+[file (chart.name.concat('.m'), false, 'UTF-8')]
+sfnew [chart.name/];
+ch = find(sfroot,"-isa","Stateflow.Chart");
+%add Variables
+[for (para : Parameter | chart.parameters)]
+[para.name/] =  Stateflow.Data(ch);
+[para.name/].name =  "[para.name/]";
+[para.name/].DataType = "[para.value/]";
+[para.name/].Scope = "Local";
+[/for]
+[for (ports : stateflow::State | chart.nodes)]
+[ports.name/] = Stateflow.State(ch);
+[ports.name/].Name = "[ports.name/]";
+[ports.name/].Position = ['['/]10 10 1000 800];
+[ports.name/].Decomposition = "PARALLEL_AND"; 
+[for (subchart : stateflow::Chart | ports.nodes )]
+[subchart.name/] = Stateflow.State([ports.name/]);
+[subchart.name/].Name = "[subchart.name/]";
+% x, y, lenghth, width
+y = ([ports.nodes->indexOf(subchart)/]-1) *200 + ([ports.nodes->indexOf(subchart)/]-1) * 40 + 30;
+[if (ports.nodes->indexOf(subchart) = 1)]
+y = 40
+[/if]
+[subchart.name/].Position =  ['['/]80 y 900 200];
+[self.getParameter(subchart.name)/]
+[for (chartx : stateflow::Chart |chart.siblings(Chart)) ]
+[if chartx.name = subchart.name]
+[for (states : stateflow::State | chartx.nodes)]
+[states.name/] = Stateflow.State([subchart.name/]);
+[states.name/].Name = "[states.name/]";
+[if (ports.nodes->indexOf(subchart) = 1)]
+[if (chartx.nodes->indexOf(states) = 1)]
+x =  100
+y =  80
+[/if]
+[if (chartx.nodes->indexOf(states) = 2)]
+x =  650
+y =  80
+[/if]
+[if (chartx.nodes->indexOf(states) = 3)]
+x =  300
+y =  120
+[/if]
+[/if]
+[if (ports.nodes->indexOf(subchart) = 2)]
+[if (chartx.nodes->indexOf(states) = 1)]
+x =  100
+y =  140 + 200
+[/if]
+[if (chartx.nodes->indexOf(states) = 2)]
+x =  650
+y =  120 +200
+[/if]
+[if (chartx.nodes->indexOf(states) = 3)]
+x =  300
+y =  200 + 200
+[/if]
+[/if]
+[if (ports.nodes->indexOf(subchart) = 3)]
+[if (chartx.nodes->indexOf(states) = 1)]
+x =  100
+y =  140 + 400 +40
+[/if]
+[if (chartx.nodes->indexOf(states) = 2)]
+x =  650
+y =  140 +400
+[/if]
+[if (chartx.nodes->indexOf(states) = 3)]
+x =  300
+y =  200 + 400
+[/if]
+[/if]
+[states.name/].Position = ['['/]x y 90 60];
+[if states.initial]
+%add self transition
+Self_Transition = Stateflow.Transition([subchart.name/]);
+Self_Transition.Destination = [states.name/];
+Self_Transition.DestinationOClock = 0;
+Self_Transition.SourceEndpoint = Self_Transition.DestinationEndpoint-['['/]0 30];
+Self_Transition.Midpoint = Self_Transition.DestinationEndpoint-['['/]0 15];
+[/if]
+[/for]
+[for (trans : Transition | chartx.transitions)]
+Transition_ = Stateflow.Transition([subchart.name/])
+[for (state : stateflow::State |  chartx.nodes)]
+[if state = trans.source]
+Transition_.Source = [state.name/];
+[/if]
+[if state = trans.target]
+Transition_.Destination = [state.name/];
+[/if]
+[/for]
+Transition_.LabelString = "";
+[for (action : stateflow::Action | trans.action)]
+[if  action.id.startsWith('RECEIVE') ]
+Transition_.LabelString = Transition_.LabelString + "[action.expression/]";
+[/if]
+[if  action.id.startsWith('EXPRESSION') ]
+[action.expression/]
+Transition_.LabelString = Transition_.LabelString + "['['/][action.expression.replace('EQUAL','==')/]]";
+[/if]
+[if  action.id.startsWith('GUARD_EVENT') ]
+Transition_.LabelString = Transition_.LabelString + "[subchart.name.replace('Port','_recv')/]" + '==' + "[action.id/]";
+[/if]
+[if  action.id.startsWith('OPERATION') ]
+Transition_.LabelString = Transition_.LabelString + "";
+[/if]
+[if  action.id.startsWith('SEND') ]
+Transition_.LabelString = Transition_.LabelString + "send([action.expression/])";
+[/if]
+[if  action.id.startsWith('ACTION_SEND') ]
+Transition_.LabelString = Transition_.LabelString + "[subchart.name.replace('Port','_send')/]" + '==' + "[action.id/]";
+[/if]
+[/for]
+[/for]
+
+[/if]
+[/for]
+
+%Ports
+[if subchart.name.contains('Port')]
+[subchart.name.replace('Port','_recv')/] =  Stateflow.Data(ch);
+[subchart.name.replace('Port','_recv')/].name =  "[subchart.name.replace('Port','_recv')/]";
+[subchart.name.replace('Port','_recv')/].Scope = "Input";
+[subchart.name.replace('Port','_send')/] =  Stateflow.Data(ch);
+[subchart.name.replace('Port','_send')/].name =  "[subchart.name.replace('Port','_send')/]";
+[subchart.name.replace('Port','_send')/].Scope = "Output";
+[/if]
+[/for]
+[/for]
+
+
+
+sfsave;
+[/file]
+[/if]
+
+
+[/template]

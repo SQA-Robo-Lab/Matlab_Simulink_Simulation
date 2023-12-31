@@ -1,0 +1,346 @@
+modeltype modelinstance uses "http://www.muml.org/modelinstance/1.0.0";
+modeltype ecore uses "http://www.eclipse.org/emf/2002/Ecore";
+modeltype muml_instance uses "http://www.muml.org/pim/instance/1.0.0";
+modeltype muml uses "http://www.muml.org/pim/1.0.0";
+modeltype constraintModel uses "http://www.muml.org/pim/constraint/1.0.0";
+modeltype storydriven uses "http://www.muml.org/core/1.0.0";
+modeltype muml_component uses "http://www.muml.org/pim/component/1.0.0";
+modeltype muml_rtsc uses "http://www.muml.org/pim/realtimestatechart/1.0.0";
+modeltype muml_behavior uses "http://www.muml.org/pim/behavior/1.0.0";
+modeltype muml_connector uses "http://www.muml.org/pim/connector/1.0.0";
+modeltype muml_types uses "http://www.muml.org/pim/types/1.0.0";
+modeltype muml_msgtype uses "http://www.muml.org/pim/msgtype/1.0.0";
+modeltype actionLanguage uses "http://www.muml.org/pim/actionlanguage/1.0.0";
+modeltype simulink uses "http://www.muml.org/simulink/1.0.0";
+modeltype stateflow uses "http://www.muml.org/simulink/stateflow/1.0.0";
+modeltype expressions uses "http://www.muml.org/core/expressions/1.0.0";
+modeltype common uses "http://www.muml.org/core/expressions/common/1.0.0";
+
+transformation MUML2SimulinkEMF(in original:muml_instance, out dest:simulink)
+{
+main()
+{
+	original.objects()->xselect(temp1:Stdlib::Element|storydriven::modelinstance::ModelElementCategory)->xcollect(temp2:storydriven::modelinstance::ModelElementCategory|temp2.map Model());
+	original.objects()->xselect(temp3:Stdlib::Element|muml::realtimestatechart::RealtimeStatechart)->xcollect(temp4:muml::realtimestatechart::RealtimeStatechart|temp4.map Real2Chart());
+}
+
+
+query muml::component::ComponentPart::getComp(in Comp_name : String) : muml::component::ComponentPart
+{
+	return Set {self}->any(c:muml::component::ComponentPart|(c.parentComponent.name=(Comp_name)));
+}
+
+
+mapping muml::component::DelegationConnector::lines() : simulink::Line@dest 
+{
+	var res1:simulink::PortBlock := resolveoneIn(muml::component::DiscretePort::ports, t : simulink::PortBlock | t.name.endsWith(self.port.name));
+	var res2:simulink::PortBlock := resolveoneIn(muml::component::DiscretePort::ports, t : simulink::PortBlock | t.name.endsWith(self.portPart.name));
+	var sub:simulink::SubSystem := resolveoneIn(muml::component::Component::Comp2Sub, t : simulink::SubSystem | t.name.startsWith(self.parentComponent.name));
+	var subt:simulink::SubSystem := resolveoneIn(muml::component::Component::Comp2Sub, t : simulink::SubSystem | t.name.startsWith(self.portPart.componentPart.name));
+	result.targetBlock := res2;
+	result.sourceBlock := res1;
+}
+
+mapping muml::component::AssemblyConnector::lines() : simulink::Line@dest 
+{
+	var subt:simulink::SubSystem := resolveoneIn(muml::component::ComponentPart::ComptoSub, t : simulink::SubSystem | t.name.startsWith(self.portParts->last().componentPart.name));
+	var sub:simulink::SubSystem := resolveoneIn(muml::component::ComponentPart::ComptoSub, t : simulink::SubSystem | t.name.startsWith(self.portParts->first().componentPart.name));
+	var res1:simulink::OutPortBlock := resolveoneIn(muml::component::DiscretePort::ports, t : simulink::OutPortBlock | t.name.endsWith(self.portParts->first().name));
+	switch {
+		case ((res1=(null))) do {res1 := resolveoneIn(muml::component::HybridPort::ports, t : simulink::OutPortBlock | t.name.endsWith(self.portParts->first().name)) };
+	};
+	switch {
+		case ((res1=(null))) do {res1 := resolveoneIn(muml::component::ContinuousPort::ports, t : simulink::OutPortBlock | t.name.endsWith(self.portParts->first().name)) };
+	};
+	var res2:simulink::InPortBlock := resolveoneIn(muml::component::DiscretePort::ports, t : simulink::InPortBlock | t.name.endsWith(self.portParts->last().name));
+	switch {
+		case ((res2=(null))) do {res2 := resolveoneIn(muml::component::HybridPort::ports, t : simulink::InPortBlock | t.name.endsWith(self.portParts->last().name)) };
+	};
+	switch {
+		case ((res2=(null))) do {res2 := resolveoneIn(muml::component::ContinuousPort::ports, t : simulink::InPortBlock | t.name.endsWith(self.portParts->last().name)) };
+	};
+	result.targetPort := res2;
+	result.sourcePort := res1;
+	result.sourceBlock := sub;
+	result.targetBlock := subt;
+}
+
+mapping storydriven::modelinstance::ModelElementCategory::Model() : simulink::SimulinkLibrary@dest 
+{
+	result.name := self.name;
+	result.blocks += self.modelElements->xselect(temp1:storydriven::ExtendableElement|muml::msgtype::MessageTypeRepository)->xcollect(temp2:muml::msgtype::MessageTypeRepository|temp2.map Message());
+	result.blocks += self.modelElements->xselect(temp3:storydriven::ExtendableElement|muml::component::Component)->xcollect(temp4:muml::component::Component|temp4.map Comp2Sub());
+	result.blocks += self.modelElements->xselect(temp5:storydriven::ExtendableElement|muml::realtimestatechart::RealtimeStatechart)->xcollect(temp6:muml::realtimestatechart::RealtimeStatechart|temp6.map Real2Statefl());
+	result.blocks += self.modelElements->xselect(temp7:storydriven::ExtendableElement|muml::instance::ComponentInstanceConfiguration)->xcollect(temp8:muml::instance::ComponentInstanceConfiguration|temp8.map transform());
+}
+
+mapping muml::realtimestatechart::RealtimeStatechart::Real2Statefl() : simulink::ChartBlock@dest 
+{
+	result.name := self.name;
+	result.id := self.behavioralElement.toString();
+}
+
+mapping muml::msgtype::MessageTypeRepository::Message() : simulink::SubSystem@dest 
+{
+	result.name := self.name;
+	result.blocks += self.messageTypes->xcollect(temp1:muml::msgtype::MessageType|temp1.map MsgtTypes());
+}
+
+mapping muml::msgtype::MessageType::MsgtTypes() : simulink::TriggerPort@dest 
+{
+	result.name := self.name;
+}
+
+mapping muml::realtimestatechart::Region::Real2Chart() : simulink::stateflow::Chart@dest 
+{
+	result.name := self.name;
+}
+
+mapping muml::realtimestatechart::RealtimeStatechart::Real2Chart() : simulink::stateflow::Chart@dest 
+{
+	result.name := self.name;
+	result.parameters += self.variables->xcollect(temp1:muml::behavior::Variable|temp1.map parameters());
+	result.nodes += self.states->xcollect(temp2:muml::realtimestatechart::State|temp2.map Real2State());
+	result.transitions += self.transitions->xcollect(temp3:muml::realtimestatechart::Transition|temp3.map Transition());
+}
+
+mapping muml::behavior::Variable::parameters() : simulink::Parameter@dest 
+{
+	result.name := self.name;
+	result.value := self.dataType.name;
+}
+
+mapping muml::realtimestatechart::RealtimeStatechart::Real2Charts() : simulink::Parameter@dest 
+{
+	result.name := self.name;
+}
+
+mapping muml::realtimestatechart::State::Real2State() : simulink::stateflow::State@dest 
+{
+	result.name := self.name;
+	result.initial := self.initial;
+	self.embeddedRegions->forEach(i){var x:Sequence(simulink::stateflow::Chart) := resolveIn(muml::realtimestatechart::RealtimeStatechart::Real2Chart, t : simulink::stateflow::Chart | t.name.endsWith(i.name));result.nodes += x };
+	result.nodes += self.embeddedRegions->xcollect(temp1:muml::realtimestatechart::Region|temp1.map Real2Chart());
+	result.outgoing += self.outgoingTransitions->xcollect(temp2:muml::realtimestatechart::Transition|temp2.map Transition());
+	result.incoming += self.incomingTransitions->xcollect(temp3:muml::realtimestatechart::Transition|temp3.map Transition());
+}
+
+mapping muml::realtimestatechart::Transition::Transition() : simulink::stateflow::Transition@dest 
+{
+	result.priority := self.priority;
+	result.guard += Set {self.guard.oclAsType(storydriven::expressions::common::ComparisonExpression)}->xcollect(temp1:storydriven::expressions::common::ComparisonExpression|temp1.map actionlang());
+	result.action += Set {self.action}->xcollect(temp2:muml::realtimestatechart::Action|temp2.map action());
+	result.action += Set {self.triggerMessageEvent.message}->xcollect(temp3:muml::realtimestatechart::Message|temp3.map action());
+	result.action += Set {self.raiseMessageEvent.message}->xcollect(temp4:muml::realtimestatechart::Message|temp4.map raiseAction());
+	result.action += Set {self.synchronization}->xcollect(temp5:muml::realtimestatechart::Synchronization|temp5.map SyncEvent());
+}
+
+mapping storydriven::expressions::common::ComparisonExpression::actionlang() : simulink::stateflow::Action@dest 
+{
+	var resleft:String := '';
+	var resright:String := '';
+	result.id := 'EXPRESSION';
+	switch {
+		case (self.leftExpression.oclIsKindOf(actionLanguage::TypedNamedElementExpression)) do {resleft := self.leftExpression.oclAsType(actionLanguage::TypedNamedElementExpression).typedNamedElement.name };
+	};
+	switch {
+		case (self.rightExpression.oclIsKindOf(actionLanguage::TypedNamedElementExpression)) do {resright := self.rightExpression.oclAsType(actionLanguage::TypedNamedElementExpression).typedNamedElement.name };
+	};
+	switch {
+		case (self.rightExpression.oclIsKindOf(storydriven::expressions::common::LiteralExpression)) do {resright := self.rightExpression.oclAsType(storydriven::expressions::common::LiteralExpression).value };
+	};
+	switch {
+		case (self.rightExpression.oclIsKindOf(storydriven::expressions::common::ArithmeticExpression)) do {var temp:storydriven::expressions::common::ArithmeticExpression := self.rightExpression.oclAsType(storydriven::expressions::common::ArithmeticExpression);switch {
+			case (temp.leftExpression.oclIsKindOf(storydriven::expressions::common::LiteralExpression)) do {resright := ((resright+(temp.leftExpression.oclAsType(storydriven::expressions::common::LiteralExpression).value))+(self.rightExpression.oclAsType(storydriven::expressions::common::ArithmeticExpression).operator.toString())) };
+		};switch {
+			case (temp.rightExpression.oclIsKindOf(actionLanguage::TypedNamedElementExpression)) do {resright := (resright+(temp.rightExpression.oclAsType(actionLanguage::TypedNamedElementExpression).typedNamedElement.name)) };
+		} };
+	};
+	result.expression := ((resleft+(self.operator.toString()))+(resright));
+}
+
+mapping muml::realtimestatechart::Message::raiseAction() : simulink::stateflow::Action@dest 
+{
+	result.id := 'ACTION_SEND';
+	var x:Integer := 0;
+	original.objects()->xselect(temp1:Stdlib::Element|muml::msgtype::MessageType)->collect(temp2:muml::msgtype::MessageType|temp2.name)->forEach(i){x := (x+(1));switch {
+		case ((i=(self.instanceOf.name))) do {result.id := ((result.id+('_'))+(x.toString())) };
+	} };
+	result.expression := self.instanceOf.name;
+}
+
+mapping muml::realtimestatechart::Message::action() : simulink::stateflow::Action@dest 
+{
+	result.id := 'GUARD_EVENT';
+	result.expression := self.instanceOf.name;
+	var x:Integer := 0;
+	original.objects()->xselect(temp1:Stdlib::Element|muml::msgtype::MessageType)->collect(temp2:muml::msgtype::MessageType|temp2.name)->forEach(i){x := (x+(1));switch {
+		case ((i=(self.instanceOf.name))) do {result.id := ((result.id+('_'))+(x.toString())) };
+	} };
+}
+
+mapping muml::realtimestatechart::Synchronization::SyncEvent() : simulink::stateflow::Action@dest 
+{
+	result.id := self.kind.toString();
+	result.expression := self.syncChannel.name;
+}
+
+mapping muml::realtimestatechart::Action::action() : simulink::stateflow::Action@dest 
+{
+	result.id := ('OPERATION_'+(self.name));
+	var res:String := '';
+	self.expressions->forEach(i){res := (res+(i.toString())) };
+	result.expression := res;
+}
+
+mapping muml::component::Port::ports() : simulink::PortBlock@dest 
+{
+	result.name := self.name;
+}
+
+mapping muml::component::AtomicComponent::Comp2Sub() : simulink::SubSystem@dest 
+{
+	result.name := self.name;
+	result.blocks += resolveIn(muml::realtimestatechart::RealtimeStatechart::Real2Statefl, t : simulink::ChartBlock | t.id.endsWith(self.name));
+	result.id := self.componentKind.toString();
+	result.blocks += self.ports->xselect(temp1:muml::component::Port|muml::component::Port)->xcollect(temp2:muml::component::Port|temp2.map ports());
+	result.lines += self.ports->collect(temp3:muml::component::Port|temp3.connectors)->xselect(temp4:muml::connector::Connector|muml::component::AssemblyConnector)->xcollect(temp5:muml::component::AssemblyConnector|temp5.map lines());
+	result.lines += self.ports->collect(temp6:muml::component::Port|temp6.connectors)->xselect(temp7:muml::connector::Connector|muml::component::DelegationConnector)->xcollect(temp8:muml::component::DelegationConnector|temp8.map lines());
+	result.blocks += original.objects()->xselect(temp9:Stdlib::Element|muml::component::ComponentPart)->collect(temp10:muml::component::ComponentPart|temp10.getComp(self.name))->xcollect(temp11:muml::component::ComponentPart|temp11.map ComptoSub());
+}
+
+mapping muml::component::Component::Comp2Sub() : simulink::SubSystem@dest 
+{
+	result.name := self.name;
+	result.id := self.componentKind.toString();
+	result.blocks += self.ports->xselect(temp1:muml::component::Port|muml::component::Port)->xcollect(temp2:muml::component::Port|temp2.map ports());
+	result.lines += self.ports->collect(temp3:muml::component::Port|temp3.connectors)->xselect(temp4:muml::connector::Connector|muml::component::AssemblyConnector)->xcollect(temp5:muml::component::AssemblyConnector|temp5.map lines());
+	result.lines += self.ports->collect(temp6:muml::component::Port|temp6.connectors)->xselect(temp7:muml::connector::Connector|muml::component::DelegationConnector)->xcollect(temp8:muml::component::DelegationConnector|temp8.map lines());
+	result.blocks += original.objects()->xselect(temp9:Stdlib::Element|muml::component::ComponentPart)->collect(temp10:muml::component::ComponentPart|temp10.getComp(self.name))->xcollect(temp11:muml::component::ComponentPart|temp11.map ComptoSub());
+}
+
+mapping muml::component::ComponentPart::ComptoSub() : simulink::SubSystem@dest 
+{
+	var res1:simulink::SubSystem := resolveoneIn(muml::component::Component::Comp2Sub, t : simulink::SubSystem | t.name.startsWith(self.componentType.name));
+	result.name := self.name;
+	result.id := res1.name;
+	result.parent := res1;
+	result.lines += self.portParts->collect(temp1:muml::component::PortPart|temp1.connectors)->xselect(temp2:muml::connector::Connector|muml::component::DelegationConnector)->xcollect(temp3:muml::component::DelegationConnector|temp3.map lines());
+	result.lines += self.portParts->collect(temp4:muml::component::PortPart|temp4.connectors)->xselect(temp5:muml::connector::Connector|muml::component::AssemblyConnector)->xcollect(temp6:muml::component::AssemblyConnector|temp6.map lines());
+}
+
+mapping muml::component::HybridPort::ports() : simulink::PortBlock@dest 
+{
+	init
+	{
+		switch {
+			case (self.inPort) do {result := object /*$temp_1*/simulink::InPortBlock@dest {
+					/* $temp_1*/name := ((self.kind.toString()+('_'))+(self.name));
+					/* $temp_1*/dimensions := ((self.samplingInterval.toString()+('_'))+(self.dataType.name));
+				}
+			 };
+		};
+		switch {
+			case (self.outPort) do {result := object /*$temp_2*/simulink::OutPortBlock@dest {
+					/* $temp_2*/name := ((self.kind.toString()+('_'))+(self.name));
+					/* $temp_2*/dimensions := ((self.samplingInterval.toString()+('_'))+(self.dataType.name));
+				}
+			 };
+		};
+	}
+
+	end
+	{
+		assert error ((result.name != (null)));
+	}
+
+}
+
+mapping muml::component::ContinuousPort::ports() : simulink::PortBlock@dest 
+{
+	init
+	{
+		switch {
+			case (self.inPort) do {result := object /*$temp_3*/simulink::InPortBlock@dest {
+					/* $temp_3*/name := ((self.kind.toString()+('_'))+(self.name));
+				}
+			 };
+		};
+		switch {
+			case (self.outPort) do {result := object /*$temp_4*/simulink::OutPortBlock@dest {
+					/* $temp_4*/name := ((self.kind.toString()+('_'))+(self.name));
+				}
+			 };
+		};
+	}
+
+	end
+	{
+		assert error ((result.name != (null)));
+	}
+
+}
+
+mapping muml::component::DiscretePort::ports() : simulink::PortBlock@dest 
+{
+	init
+	{
+		switch {
+			case (self.isDiscreteInPort) do {result := object /*$temp_5*/simulink::InPortBlock@dest {
+					/* $temp_5*/name := self.name;
+				}
+			 };
+		};
+		switch {
+			case (self.isDiscreteInOutPort) do {result := object /*$temp_6*/simulink::PortBlock@dest {
+					/* $temp_6*/name := ('BUS_'+(self.name));
+				}
+			 };
+		};
+		switch {
+			case (self.isDiscreteOutPort) do {result := object /*$temp_7*/simulink::OutPortBlock@dest {
+				}
+			 };
+		};
+	}
+
+	end
+	{
+		assert error ((result.name != (null)));
+	}
+
+}
+
+mapping muml::instance::ComponentInstance::simSub() : simulink::SubSystem@dest 
+{
+	result.name := ((self.name+('_'))+(self.componentType.name));
+	var res1:Sequence(simulink::SubSystem) := resolveIn(muml::component::Component::Comp2Sub, t : simulink::SubSystem | t.name.startsWith(self.componentType.name));
+	result.blocks += self.portInstances->xcollect(temp1:muml::instance::PortInstance|temp1.map ports());
+	result.blocks += Set {self.componentType}->xcollect(temp2:muml::component::Component|temp2.map Comp2Sub());
+	result.id := self.componentType.name.toString();
+	self.parentCIC;
+}
+
+mapping muml::instance::ComponentInstanceConfiguration::transform() : simulink::SimulinkModel@dest 
+{
+	result.name := self.name;
+	result.blocks += self.componentInstances->xcollect(temp1:muml::instance::ComponentInstance|temp1.map simSub());
+	result.lines += self.portConnectorInstances->xselect(temp2:muml::instance::PortConnectorInstance|muml::instance::AssemblyConnectorInstance)->xcollect(temp3:muml::instance::AssemblyConnectorInstance|temp3.map lines());
+}
+
+mapping muml::instance::AssemblyConnectorInstance::lines() : simulink::Line@dest 
+{
+	var res1:simulink::PortBlock := resolveoneIn(muml::instance::PortInstance::ports, t : simulink::PortBlock | t.name.endsWith(self.connectorEndpointInstances->first().name));
+	var res2:simulink::PortBlock := resolveoneIn(muml::instance::PortInstance::ports, t : simulink::PortBlock | t.name.endsWith(self.connectorEndpointInstances->last().name));
+	result.targetBlock := res2;
+	result.sourceBlock := res1;
+}
+
+mapping muml::instance::PortInstance::ports() : simulink::PortBlock@dest 
+{
+	result.name := ('BUS_'+(self.name));
+	result.initialCondition := self.portPart.componentPart.name;
+}
+
+}
+
