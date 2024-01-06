@@ -340,6 +340,24 @@ public class Generate extends AbstractAcceleoGenerator {
     @Override
     public void registerPackages(ResourceSet resourceSet) {
         super.registerPackages(resourceSet);
+        if (!isInWorkspace(org.muml.simulink.SimulinkPackage.class)) {
+            resourceSet.getPackageRegistry().put(org.muml.simulink.SimulinkPackage.eINSTANCE.getNsURI(), org.muml.simulink.SimulinkPackage.eINSTANCE);
+        }
+        if (!isInWorkspace(org.muml.simulink.stateflow.StateflowPackage.class)) {
+            resourceSet.getPackageRegistry().put(org.muml.simulink.stateflow.StateflowPackage.eINSTANCE.getNsURI(), org.muml.simulink.stateflow.StateflowPackage.eINSTANCE);
+        }
+        if (!isInWorkspace(org.muml.simulink.msglib.MsglibPackage.class)) {
+            resourceSet.getPackageRegistry().put(org.muml.simulink.msglib.MsglibPackage.eINSTANCE.getNsURI(), org.muml.simulink.msglib.MsglibPackage.eINSTANCE);
+        }
+        if (!isInWorkspace(org.muml.simulink.msglib.buffer.BufferPackage.class)) {
+            resourceSet.getPackageRegistry().put(org.muml.simulink.msglib.buffer.BufferPackage.eINSTANCE.getNsURI(), org.muml.simulink.msglib.buffer.BufferPackage.eINSTANCE);
+        }
+        if (!isInWorkspace(org.muml.simulink.reconfiguration.ReconfigurationPackage.class)) {
+            resourceSet.getPackageRegistry().put(org.muml.simulink.reconfiguration.ReconfigurationPackage.eINSTANCE.getNsURI(), org.muml.simulink.reconfiguration.ReconfigurationPackage.eINSTANCE);
+        }
+        if (!isInWorkspace(org.muml.simulink.stateflow.StateflowPackage.class)) {
+            resourceSet.getPackageRegistry().put(org.muml.simulink.stateflow.StateflowPackage.eINSTANCE.getNsURI(), org.muml.simulink.stateflow.StateflowPackage.eINSTANCE);
+        }
         
         /*
          * If you want to change the content of this method, do NOT forget to change the "@generated"

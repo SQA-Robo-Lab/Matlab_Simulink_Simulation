@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:simulink="http://www.muml.org/simulink/1.0.0" xmlns:stateflow="http://www.muml.org/simulink/stateflow/1.0.0" xsi:schemaLocation="http://www.muml.org/simulink/stateflow/1.0.0 http://www.muml.org/simulink/1.0.0#//stateflow">
+  <simulink:SimulinkLibrary id="_hDtX0KyKEe6Py8cSEryyaA" name="types"/>
+  <simulink:SimulinkLibrary id="_hDtX0ayKEe6Py8cSEryyaA" name="realtimestatechart">
+    <blocks xsi:type="simulink:ChartBlock" id="org.muml.pim.protocol.impl.RoleImpl@396f93e4 (comment: &quot;no comment provided&quot;) (name: driveControl)" name="driveControlRole"/>
+    <blocks xsi:type="simulink:ChartBlock" id="org.muml.pim.protocol.impl.RoleImpl@7545e573 (comment: &quot;no comment provided&quot;) (name: communicator)" name="communicatorRole"/>
+    <blocks xsi:type="simulink:ChartBlock" id="org.muml.pim.protocol.impl.RoleImpl@1ebaa552 (comment: &quot;no comment provided&quot;) (name: initiator)" name="initiatorRole"/>
+    <blocks xsi:type="simulink:ChartBlock" id="org.muml.pim.protocol.impl.RoleImpl@55b6af1f (comment: &quot;no comment provided&quot;) (name: affiliate)" name="affiliateRole"/>
+  </simulink:SimulinkLibrary>
+  <simulink:SimulinkLibrary id="_hDtX2KyKEe6Py8cSEryyaA" name="instance">
+    <blocks xsi:type="simulink:SimulinkModel" id="_hDtX2ayKEe6Py8cSEryyaA" name="fastAndSlowCar_v2">
+      <lines id="_hDxCNKyKEe6Py8cSEryyaA" sourceBlock="_hDxCMKyKEe6Py8cSEryyaA" targetBlock="_hDtX26yKEe6Py8cSEryyaA"/>
+      <lines id="_hDxCNayKEe6Py8cSEryyaA" sourceBlock="_hDtX26yKEe6Py8cSEryyaA" targetBlock="_hDxCMKyKEe6Py8cSEryyaA"/>
+      <blocks xsi:type="simulink:SubSystem" id="RoboCar" name="fastCar">
+        <blocks xsi:type="simulink:PortBlock" id="_hDtX26yKEe6Py8cSEryyaA" name="overtakingAffiliate1" incomingLines="_hDxCNKyKEe6Py8cSEryyaA" outgoingLines="_hDxCNayKEe6Py8cSEryyaA"/>
+        <blocks xsi:type="simulink:PortBlock" id="_hDxCMKyKEe6Py8cSEryyaA" name="overtakingInitiator1" incomingLines="_hDxCNayKEe6Py8cSEryyaA" outgoingLines="_hDxCNKyKEe6Py8cSEryyaA"/>
+      </blocks>
+      <blocks xsi:type="simulink:SubSystem" id="RoboCar" name="slowCar">
+        <blocks xsi:type="simulink:PortBlock" id="_hDxCMqyKEe6Py8cSEryyaA" name="overtakingAffiliate1"/>
+        <blocks xsi:type="simulink:PortBlock" id="_hDxCM6yKEe6Py8cSEryyaA" name="overtakingInitiator1"/>
+      </blocks>
+    </blocks>
+  </simulink:SimulinkLibrary>
+  <simulink:SimulinkLibrary id="_hDxCNqyKEe6Py8cSEryyaA" name="pattern"/>
+  <simulink:SimulinkLibrary id="_hDxCN6yKEe6Py8cSEryyaA" name="protocol"/>
+  <simulink:SimulinkLibrary id="_hDxCOKyKEe6Py8cSEryyaA" name="component">
+    <blocks xsi:type="simulink:SubSystem" id="continuous component" name="DistanceSensor">
+      <blocks xsi:type="simulink:OutPortBlock" id="_hDxCOqyKEe6Py8cSEryyaA" name="OUT_distance"/>
+    </blocks>
+    <blocks xsi:type="simulink:SubSystem" id="continuous component" name="PowerTrain">
+      <blocks xsi:type="simulink:InPortBlock" id="_hDxCPKyKEe6Py8cSEryyaA" name="IN_velocity"/>
+    </blocks>
+    <blocks xsi:type="simulink:SubSystem" id="software component" name="DriveControl">
+      <blocks xsi:type="simulink:ChartBlock" id="Atomic_Component_DriveControl" name="DriveControlComponent"/>
+      <blocks xsi:type="simulink:InPortBlock" id="_hD6zMayKEe6Py8cSEryyaA" name="IN_frontDistance" dimensions="30 ms_int32"/>
+      <blocks xsi:type="simulink:InPortBlock" id="_hD6zMqyKEe6Py8cSEryyaA" name="IN_rearDistance" dimensions="30 ms_int32"/>
+      <blocks xsi:type="simulink:OutPortBlock" id="_hD6zM6yKEe6Py8cSEryyaA" name="OUT_velocity" dimensions="30 ms_int32"/>
+      <blocks xsi:type="simulink:PortBlock" id="_hD6zNKyKEe6Py8cSEryyaA" name="BUS_driveControl"/>
+    </blocks>
+    <blocks xsi:type="simulink:SubSystem" id="software component" name="Coordinator">
+      <blocks xsi:type="simulink:ChartBlock" id="Atomic_Component_Coordinator" name="CoordinatorComponent"/>
+      <blocks xsi:type="simulink:PortBlock" id="_hD6zNqyKEe6Py8cSEryyaA" name="BUS_communicator"/>
+      <blocks xsi:type="simulink:PortBlock" id="_hD6zN6yKEe6Py8cSEryyaA" name="BUS_overtakingInitiator" incomingLines="_hD6zQqyKEe6Py8cSEryyaA" outgoingLines="_hD6zQqyKEe6Py8cSEryyaA"/>
+      <blocks xsi:type="simulink:PortBlock" id="_hD6zOKyKEe6Py8cSEryyaA" name="BUS_overtakingAffiliate" incomingLines="_hD6zQ6yKEe6Py8cSEryyaA" outgoingLines="_hD6zQ6yKEe6Py8cSEryyaA"/>
+    </blocks>
+    <blocks xsi:type="simulink:SubSystem" id="Structure_Component" name="RoboCar">
+      <lines id="_hD6zQqyKEe6Py8cSEryyaA" sourceBlock="_hD6zN6yKEe6Py8cSEryyaA" targetBlock="_hD6zN6yKEe6Py8cSEryyaA"/>
+      <lines id="_hD6zQ6yKEe6Py8cSEryyaA" sourceBlock="_hD6zOKyKEe6Py8cSEryyaA" targetBlock="_hD6zOKyKEe6Py8cSEryyaA"/>
+      <blocks xsi:type="simulink:PortBlock" id="_hD6zOqyKEe6Py8cSEryyaA" name="BUS_overtakingInitiator"/>
+      <blocks xsi:type="simulink:PortBlock" id="_hD6zO6yKEe6Py8cSEryyaA" name="BUS_overtakingAffiliate"/>
+      <blocks xsi:type="simulink:SubSystem" id="DriveControl" name="driveControl" outgoingLines="_hD6zRayKEe6Py8cSEryyaA">
+        <lines id="_hD6zP6yKEe6Py8cSEryyaA" sourcePort="_hDxCOqyKEe6Py8cSEryyaA" targetPort="_hD6zMayKEe6Py8cSEryyaA" sourceBlock="DistanceSensor"/>
+        <lines id="_hD6zQayKEe6Py8cSEryyaA" targetBlock="Coordinator"/>
+        <lines id="_hD6zPayKEe6Py8cSEryyaA" sourcePort="_hDxCOqyKEe6Py8cSEryyaA" targetPort="_hD6zMqyKEe6Py8cSEryyaA" sourceBlock="DistanceSensor"/>
+      </blocks>
+      <blocks xsi:type="simulink:SubSystem" id="PowerTrain" name="powerTrain">
+        <lines id="_hD6zRayKEe6Py8cSEryyaA" sourcePort="_hD6zM6yKEe6Py8cSEryyaA" targetPort="_hDxCPKyKEe6Py8cSEryyaA" sourceBlock="DriveControl"/>
+      </blocks>
+      <blocks xsi:type="simulink:SubSystem" id="DistanceSensor" name="rearDistanceSensor" outgoingLines="_hD6zPayKEe6Py8cSEryyaA"/>
+      <blocks xsi:type="simulink:SubSystem" id="DistanceSensor" name="frontDistanceSensor" outgoingLines="_hD6zP6yKEe6Py8cSEryyaA"/>
+      <blocks xsi:type="simulink:SubSystem" id="Coordinator" name="communicator" incomingLines="_hD6zQayKEe6Py8cSEryyaA"/>
+    </blocks>
+  </simulink:SimulinkLibrary>
+  <simulink:SimulinkLibrary id="_hD6zR6yKEe6Py8cSEryyaA" name="msgtype">
+    <blocks xsi:type="simulink:SubSystem" id="_hD6zSKyKEe6Py8cSEryyaA" name="OvertakingPermissionMessages">
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zS6yKEe6Py8cSEryyaA" name="requestPermission"/>
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zSayKEe6Py8cSEryyaA" name="grantPermission"/>
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zSqyKEe6Py8cSEryyaA" name="denyPermission"/>
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zTKyKEe6Py8cSEryyaA" name="executedOvertaking"/>
+    </blocks>
+    <blocks xsi:type="simulink:SubSystem" id="_hD6zTayKEe6Py8cSEryyaA" name="OvertakingCoordinationMessages">
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zT6yKEe6Py8cSEryyaA" name="requestOvertaking"/>
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zUKyKEe6Py8cSEryyaA" name="finishedOvertaking"/>
+      <blocks xsi:type="simulink:TriggerPort" id="_hD6zTqyKEe6Py8cSEryyaA" name="acceptOvertaking"/>
+    </blocks>
+  </simulink:SimulinkLibrary>
+  <simulink:SimulinkLibrary id="_hD6zUayKEe6Py8cSEryyaA" name="behavior"/>
+  <simulink:SimulinkLibrary id="_hD6zUqyKEe6Py8cSEryyaA" name="hwresource"/>
+  <simulink:SimulinkLibrary id="_hD6zU6yKEe6Py8cSEryyaA" name="hwplatform"/>
+  <simulink:SimulinkLibrary id="_hD6zVKyKEe6Py8cSEryyaA" name="manual_allocation"/>
+  <stateflow:Chart id="_hD6zVayKEe6Py8cSEryyaA" name="driveControlRole">
+    <parameters name="distanceLimit" value="int32"/>
+    <parameters name="distance" value="int32"/>
+    <nodes xsi:type="stateflow:State" id="_hED9IKyKEe6Py8cSEryyaA" incoming="_hED9JKyKEe6Py8cSEryyaA _hED9JqyKEe6Py8cSEryyaA" outgoing="_hED9IayKEe6Py8cSEryyaA" name="AutonomousDriving" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hED9KKyKEe6Py8cSEryyaA" incoming="_hED9IayKEe6Py8cSEryyaA" outgoing="_hED9JKyKEe6Py8cSEryyaA _hED9KayKEe6Py8cSEryyaA" name="WaitForPermission"/>
+    <nodes xsi:type="stateflow:State" id="_hED9K6yKEe6Py8cSEryyaA" incoming="_hED9KayKEe6Py8cSEryyaA" outgoing="_hED9JqyKEe6Py8cSEryyaA" name="Overtaking"/>
+    <transitions id="_hED9KayKEe6Py8cSEryyaA" source="_hED9KKyKEe6Py8cSEryyaA" target="_hED9K6yKEe6Py8cSEryyaA" priority="2">
+      <action id="GUARD_EVENT_4" expression="grantPermission"/>
+    </transitions>
+    <transitions id="_hED9IayKEe6Py8cSEryyaA" source="_hED9IKyKEe6Py8cSEryyaA" target="_hED9KKyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EXPRESSION" expression="distanceLESSdistanceLimit"/>
+      <action id="ACTION_SEND_1" expression="requestPermission"/>
+    </transitions>
+    <transitions id="_hED9JKyKEe6Py8cSEryyaA" source="_hED9KKyKEe6Py8cSEryyaA" target="_hED9IKyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_2" expression="denyPermission"/>
+    </transitions>
+    <transitions id="_hED9JqyKEe6Py8cSEryyaA" source="_hED9K6yKEe6Py8cSEryyaA" target="_hED9IKyKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_7" expression="executedOvertaking"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hED9LKyKEe6Py8cSEryyaA" name="communicatorRole">
+    <nodes xsi:type="stateflow:State" id="_hED9LayKEe6Py8cSEryyaA" incoming="_hED9MKyKEe6Py8cSEryyaA _hED9MqyKEe6Py8cSEryyaA" outgoing="_hED9LqyKEe6Py8cSEryyaA" name="Idle" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hED9NKyKEe6Py8cSEryyaA" incoming="_hED9LqyKEe6Py8cSEryyaA" outgoing="_hED9MqyKEe6Py8cSEryyaA _hED9NayKEe6Py8cSEryyaA" name="WaitForCoordination"/>
+    <nodes xsi:type="stateflow:State" id="_hED9N6yKEe6Py8cSEryyaA" incoming="_hED9NayKEe6Py8cSEryyaA" outgoing="_hED9MKyKEe6Py8cSEryyaA" name="WaitForOvertaking"/>
+    <transitions id="_hED9LqyKEe6Py8cSEryyaA" source="_hED9LayKEe6Py8cSEryyaA" target="_hED9NKyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_1" expression="requestPermission"/>
+    </transitions>
+    <transitions id="_hED9NayKEe6Py8cSEryyaA" source="_hED9NKyKEe6Py8cSEryyaA" target="_hED9N6yKEe6Py8cSEryyaA" priority="2">
+      <action id="ACTION_SEND_4" expression="grantPermission"/>
+    </transitions>
+    <transitions id="_hED9MKyKEe6Py8cSEryyaA" source="_hED9N6yKEe6Py8cSEryyaA" target="_hED9LayKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_7" expression="executedOvertaking"/>
+    </transitions>
+    <transitions id="_hED9MqyKEe6Py8cSEryyaA" source="_hED9NKyKEe6Py8cSEryyaA" target="_hED9LayKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_2" expression="denyPermission"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hED9OKyKEe6Py8cSEryyaA" name="initiatorRole">
+    <nodes xsi:type="stateflow:State" id="_hED9OayKEe6Py8cSEryyaA" incoming="_hED9PKyKEe6Py8cSEryyaA" outgoing="_hED9OqyKEe6Py8cSEryyaA" name="Idle" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hED9PqyKEe6Py8cSEryyaA" incoming="_hED9OqyKEe6Py8cSEryyaA" outgoing="_hED9P6yKEe6Py8cSEryyaA" name="Initiating"/>
+    <nodes xsi:type="stateflow:State" id="_hED9QayKEe6Py8cSEryyaA" incoming="_hED9P6yKEe6Py8cSEryyaA" outgoing="_hED9PKyKEe6Py8cSEryyaA" name="Passing"/>
+    <transitions id="_hED9OqyKEe6Py8cSEryyaA" source="_hED9OayKEe6Py8cSEryyaA" target="_hED9PqyKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_3" expression="requestOvertaking"/>
+    </transitions>
+    <transitions id="_hED9P6yKEe6Py8cSEryyaA" source="_hED9PqyKEe6Py8cSEryyaA" target="_hED9QayKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_6" expression="acceptOvertaking"/>
+    </transitions>
+    <transitions id="_hED9PKyKEe6Py8cSEryyaA" source="_hED9QayKEe6Py8cSEryyaA" target="_hED9OayKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_5" expression="finishedOvertaking"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hED9QqyKEe6Py8cSEryyaA" name="affiliateRole">
+    <nodes xsi:type="stateflow:State" id="_hED9Q6yKEe6Py8cSEryyaA" incoming="_hENuIayKEe6Py8cSEryyaA" outgoing="_hED9RKyKEe6Py8cSEryyaA" name="Idle" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hENuI6yKEe6Py8cSEryyaA" incoming="_hED9RKyKEe6Py8cSEryyaA" outgoing="_hENuJKyKEe6Py8cSEryyaA" name="Coordinating"/>
+    <nodes xsi:type="stateflow:State" id="_hENuJqyKEe6Py8cSEryyaA" incoming="_hENuJKyKEe6Py8cSEryyaA" outgoing="_hENuIayKEe6Py8cSEryyaA" name="Getting Passed"/>
+    <transitions id="_hED9RKyKEe6Py8cSEryyaA" source="_hED9Q6yKEe6Py8cSEryyaA" target="_hENuI6yKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_3" expression="requestOvertaking"/>
+    </transitions>
+    <transitions id="_hENuJKyKEe6Py8cSEryyaA" source="_hENuI6yKEe6Py8cSEryyaA" target="_hENuJqyKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_6" expression="acceptOvertaking"/>
+    </transitions>
+    <transitions id="_hENuIayKEe6Py8cSEryyaA" source="_hENuJqyKEe6Py8cSEryyaA" target="_hED9Q6yKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_5" expression="finishedOvertaking"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hENuJ6yKEe6Py8cSEryyaA" name="DriveControlComponent">
+    <parameters name="distanceLimit" value="int32"/>
+    <parameters name="desiredVelocity" value="int32"/>
+    <parameters name="slowVelocity" value="double"/>
+    <parameters name="laneDistance" value="int32"/>
+    <nodes xsi:type="stateflow:State" id="_hENuKKyKEe6Py8cSEryyaA" name="DriveControl_main" initial="true">
+      <nodes xsi:type="stateflow:Chart" id="_hENuKayKEe6Py8cSEryyaA" name="driveControlPort"/>
+      <nodes xsi:type="stateflow:Chart" id="_hENuKqyKEe6Py8cSEryyaA" name="driving"/>
+    </nodes>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hENuK6yKEe6Py8cSEryyaA" name="driveControlPort">
+    <nodes xsi:type="stateflow:State" id="_hENuLKyKEe6Py8cSEryyaA" incoming="_hENuMqyKEe6Py8cSEryyaA _hENuNKyKEe6Py8cSEryyaA" outgoing="_hENuLayKEe6Py8cSEryyaA" name="AutonomousDriving" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hENuN6yKEe6Py8cSEryyaA" incoming="_hENuLayKEe6Py8cSEryyaA" outgoing="_hENuMqyKEe6Py8cSEryyaA _hENuOKyKEe6Py8cSEryyaA" name="WaitForPermission"/>
+    <nodes xsi:type="stateflow:State" id="_hENuPKyKEe6Py8cSEryyaA" incoming="_hENuOKyKEe6Py8cSEryyaA" outgoing="_hENuNKyKEe6Py8cSEryyaA" name="Overtaking"/>
+    <transitions id="_hENuOKyKEe6Py8cSEryyaA" source="_hENuN6yKEe6Py8cSEryyaA" target="_hENuPKyKEe6Py8cSEryyaA" priority="2">
+      <action id="GUARD_EVENT_4" expression="grantPermission"/>
+      <action id="OPERATION_accelerate" expression="org.muml.pim.actionlanguage.impl.BlockImpl@29286074 (comment: &quot;no comment provided&quot;)"/>
+      <action id="SEND" expression="startOvertaking"/>
+    </transitions>
+    <transitions id="_hENuLayKEe6Py8cSEryyaA" source="_hENuLKyKEe6Py8cSEryyaA" target="_hENuN6yKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EXPRESSION" expression="frontDistanceLESSdistanceLimit"/>
+      <action id="OPERATION_slowDown" expression="org.muml.pim.actionlanguage.impl.BlockImpl@513d8332 (comment: &quot;no comment provided&quot;)"/>
+      <action id="ACTION_SEND_1" expression="requestPermission"/>
+      <action id="SEND"/>
+    </transitions>
+    <transitions id="_hENuMqyKEe6Py8cSEryyaA" source="_hENuN6yKEe6Py8cSEryyaA" target="_hENuLKyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_2" expression="denyPermission"/>
+    </transitions>
+    <transitions id="_hENuNKyKEe6Py8cSEryyaA" source="_hENuPKyKEe6Py8cSEryyaA" target="_hENuLKyKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_7" expression="executedOvertaking"/>
+      <action id="RECEIVE" expression="overtakingSuccessful"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hENuPayKEe6Py8cSEryyaA" name="driving">
+    <nodes xsi:type="stateflow:State" id="_hENuPqyKEe6Py8cSEryyaA" incoming="_hENuQqyKEe6Py8cSEryyaA" outgoing="_hENuP6yKEe6Py8cSEryyaA" name="FollowMainLane" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hEXfIKyKEe6Py8cSEryyaA" incoming="_hENuP6yKEe6Py8cSEryyaA" outgoing="_hEXfIayKEe6Py8cSEryyaA" name="PassSlowerVehicle"/>
+    <nodes xsi:type="stateflow:State" id="_hEXfI6yKEe6Py8cSEryyaA" incoming="_hEXfIayKEe6Py8cSEryyaA" outgoing="_hENuQqyKEe6Py8cSEryyaA" name="CompleteOvertaking"/>
+    <transitions id="_hENuP6yKEe6Py8cSEryyaA" source="_hENuPqyKEe6Py8cSEryyaA" target="_hEXfIKyKEe6Py8cSEryyaA" priority="1">
+      <action id="OPERATION_changeLane" expression="org.muml.pim.actionlanguage.impl.BlockImpl@2eb73591 (comment: &quot;no comment provided&quot;)"/>
+      <action id="RECEIVE" expression="startOvertaking"/>
+    </transitions>
+    <transitions id="_hENuQqyKEe6Py8cSEryyaA" source="_hEXfI6yKEe6Py8cSEryyaA" target="_hENuPqyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EXPRESSION" expression="rearDistanceGREATER2TIMESdistanceLimit"/>
+      <action id="OPERATION_changeLaneBack" expression="org.muml.pim.actionlanguage.impl.BlockImpl@bdc101c (comment: &quot;no comment provided&quot;)"/>
+      <action id="SEND" expression="overtakingSuccessful"/>
+    </transitions>
+    <transitions id="_hEXfIayKEe6Py8cSEryyaA" source="_hEXfIKyKEe6Py8cSEryyaA" target="_hEXfI6yKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EXPRESSION" expression="rearDistanceLESSlaneDistance"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hEXfJKyKEe6Py8cSEryyaA" name="CoordinatorComponent">
+    <parameters name="coordinationTimeout" value="int32"/>
+    <parameters name="coordinatorIsBusy" value="boolean"/>
+    <nodes xsi:type="stateflow:State" id="_hEXfJayKEe6Py8cSEryyaA" name="Coordinator_main" initial="true">
+      <nodes xsi:type="stateflow:Chart" id="_hEXfJqyKEe6Py8cSEryyaA" name="communicatorPort"/>
+      <nodes xsi:type="stateflow:Chart" id="_hEXfJ6yKEe6Py8cSEryyaA" name="overtakingInitiatorPort"/>
+      <nodes xsi:type="stateflow:Chart" id="_hEXfKKyKEe6Py8cSEryyaA" name="overtakingAffiliatePort"/>
+    </nodes>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hEXfKayKEe6Py8cSEryyaA" name="communicatorPort">
+    <nodes xsi:type="stateflow:State" id="_hEXfKqyKEe6Py8cSEryyaA" incoming="_hEXfLqyKEe6Py8cSEryyaA _hEXfMayKEe6Py8cSEryyaA" outgoing="_hEXfK6yKEe6Py8cSEryyaA" name="Idle" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hEXfNKyKEe6Py8cSEryyaA" incoming="_hEXfK6yKEe6Py8cSEryyaA" outgoing="_hEXfMayKEe6Py8cSEryyaA _hEXfNayKEe6Py8cSEryyaA" name="WaitForCoordination"/>
+    <nodes xsi:type="stateflow:State" id="_hEXfOKyKEe6Py8cSEryyaA" incoming="_hEXfNayKEe6Py8cSEryyaA" outgoing="_hEXfLqyKEe6Py8cSEryyaA" name="WaitForOvertaking"/>
+    <transitions id="_hEXfK6yKEe6Py8cSEryyaA" source="_hEXfKqyKEe6Py8cSEryyaA" target="_hEXfNKyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_1" expression="requestPermission"/>
+      <action id="SEND" expression="overtakingRequested"/>
+    </transitions>
+    <transitions id="_hEXfNayKEe6Py8cSEryyaA" source="_hEXfNKyKEe6Py8cSEryyaA" target="_hEXfOKyKEe6Py8cSEryyaA" priority="2">
+      <action id="ACTION_SEND_4" expression="grantPermission"/>
+      <action id="RECEIVE" expression="coordinationSuccessful"/>
+    </transitions>
+    <transitions id="_hEXfLqyKEe6Py8cSEryyaA" source="_hEXfOKyKEe6Py8cSEryyaA" target="_hEXfKqyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_7" expression="executedOvertaking"/>
+      <action id="SEND" expression="overtakingSuccessful"/>
+    </transitions>
+    <transitions id="_hEXfMayKEe6Py8cSEryyaA" source="_hEXfNKyKEe6Py8cSEryyaA" target="_hEXfKqyKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_2" expression="denyPermission"/>
+      <action id="RECEIVE" expression="coordinationSuccessful"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hEXfOayKEe6Py8cSEryyaA" name="overtakingInitiatorPort">
+    <nodes xsi:type="stateflow:State" id="_hEXfOqyKEe6Py8cSEryyaA" incoming="_hEXfQKyKEe6Py8cSEryyaA _hEXfQ6yKEe6Py8cSEryyaA" outgoing="_hEXfO6yKEe6Py8cSEryyaA" name="Idle" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hEXfRqyKEe6Py8cSEryyaA" incoming="_hEXfO6yKEe6Py8cSEryyaA" outgoing="_hEXfR6yKEe6Py8cSEryyaA _hEXfQ6yKEe6Py8cSEryyaA" name="Initiating"/>
+    <nodes xsi:type="stateflow:State" id="_hEgpEayKEe6Py8cSEryyaA" incoming="_hEXfR6yKEe6Py8cSEryyaA" outgoing="_hEXfQKyKEe6Py8cSEryyaA" name="Passing"/>
+    <transitions id="_hEXfO6yKEe6Py8cSEryyaA" source="_hEXfOqyKEe6Py8cSEryyaA" target="_hEXfRqyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EXPRESSION" expression="coordinatorIsBusyEQUALfalse"/>
+      <action id="OPERATION_busy" expression="org.muml.pim.actionlanguage.impl.BlockImpl@1be379d2 (comment: &quot;no comment provided&quot;)"/>
+      <action id="ACTION_SEND_3" expression="requestOvertaking"/>
+      <action id="RECEIVE" expression="overtakingRequested"/>
+    </transitions>
+    <transitions id="_hEXfR6yKEe6Py8cSEryyaA" source="_hEXfRqyKEe6Py8cSEryyaA" target="_hEgpEayKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_6" expression="acceptOvertaking"/>
+      <action id="SEND" expression="coordinationSuccessful"/>
+    </transitions>
+    <transitions id="_hEXfQKyKEe6Py8cSEryyaA" source="_hEgpEayKEe6Py8cSEryyaA" target="_hEXfOqyKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_5" expression="finishedOvertaking"/>
+      <action id="RECEIVE" expression="overtakingSuccessful"/>
+    </transitions>
+    <transitions id="_hEXfQ6yKEe6Py8cSEryyaA" source="_hEXfRqyKEe6Py8cSEryyaA" target="_hEXfOqyKEe6Py8cSEryyaA" priority="2">
+      <action id="ACTION_SEND_5" expression="finishedOvertaking"/>
+      <action id="SEND" expression="coordinationSuccessful"/>
+    </transitions>
+  </stateflow:Chart>
+  <stateflow:Chart id="_hEgpEqyKEe6Py8cSEryyaA" name="overtakingAffiliatePort">
+    <nodes xsi:type="stateflow:State" id="_hEgpE6yKEe6Py8cSEryyaA" incoming="_hEgpGKyKEe6Py8cSEryyaA" outgoing="_hEgpFKyKEe6Py8cSEryyaA" name="Idle" initial="true"/>
+    <nodes xsi:type="stateflow:State" id="_hEgpGqyKEe6Py8cSEryyaA" incoming="_hEgpFKyKEe6Py8cSEryyaA" outgoing="_hEgpG6yKEe6Py8cSEryyaA" name="Coordinating"/>
+    <nodes xsi:type="stateflow:State" id="_hEgpHayKEe6Py8cSEryyaA" incoming="_hEgpG6yKEe6Py8cSEryyaA" outgoing="_hEgpGKyKEe6Py8cSEryyaA" name="GettingPassed"/>
+    <transitions id="_hEgpFKyKEe6Py8cSEryyaA" source="_hEgpE6yKEe6Py8cSEryyaA" target="_hEgpGqyKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EXPRESSION" expression="coordinatorIsBusyEQUALfalse"/>
+      <action id="GUARD_EVENT_3" expression="requestOvertaking"/>
+      <action id="OPERATION_busy" expression="org.muml.pim.actionlanguage.impl.BlockImpl@50c358ce (comment: &quot;no comment provided&quot;)"/>
+    </transitions>
+    <transitions id="_hEgpG6yKEe6Py8cSEryyaA" source="_hEgpGqyKEe6Py8cSEryyaA" target="_hEgpHayKEe6Py8cSEryyaA" priority="1">
+      <action id="ACTION_SEND_6" expression="acceptOvertaking"/>
+    </transitions>
+    <transitions id="_hEgpGKyKEe6Py8cSEryyaA" source="_hEgpHayKEe6Py8cSEryyaA" target="_hEgpE6yKEe6Py8cSEryyaA" priority="1">
+      <action id="GUARD_EVENT_5" expression="finishedOvertaking"/>
+    </transitions>
+  </stateflow:Chart>
+</xmi:XMI>

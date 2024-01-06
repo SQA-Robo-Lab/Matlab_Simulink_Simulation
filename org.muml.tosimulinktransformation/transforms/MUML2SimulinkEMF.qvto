@@ -1,0 +1,422 @@
+
+modeltype modelinstance uses core::modelinstance('http://www.muml.org/core/1.0.0');
+modeltype ecore uses 'http://www.eclipse.org/emf/2002/Ecore';
+modeltype muml_instance uses pim::instance('http://www.muml.org/pim/1.0.0');
+modeltype muml uses pim('http://www.muml.org/pim/1.0.0');
+modeltype constraintModel uses pim::constraint('http://www.muml.org/pim/1.0.0');
+modeltype storydriven uses 'http://www.muml.org/core/1.0.0';
+modeltype muml_component uses pim::component('http://www.muml.org/pim/1.0.0');
+modeltype muml_rtsc uses pim::realtimestatechart('http://www.muml.org/pim/1.0.0');
+modeltype muml_behavior uses pim::behavior('http://www.muml.org/pim/1.0.0');
+modeltype muml_connector uses pim::connector('http://www.muml.org/pim/1.0.0');
+modeltype muml_types uses pim::types('http://www.muml.org/pim/1.0.0');
+modeltype muml_msgtype uses pim::msgtype('http://www.muml.org/pim/1.0.0');
+modeltype actionLanguage uses 'http://www.muml.org/pim/actionlanguage/1.0.0';
+modeltype simulink uses simulink('http://www.muml.org/simulink/1.0.0');
+modeltype stateflow uses simulink::stateflow('http://www.muml.org/simulink/1.0.0');
+modeltype expressions uses core::expressions('http://www.muml.org/core/1.0.0');
+modeltype common uses core::expressions::common('http://www.muml.org/core/1.0.0');
+transformation NewTransformation(in original: muml_instance , out dest:simulink );
+
+
+main() {
+
+		//original.objects()[PortConnectorInstance]->map Port2Port();
+		original.objects()[ModelElementCategory] ->map Model();
+		original.objects()[RealtimeStatechart] ->map Real2Chart();	
+}
+
+
+query ComponentPart :: getComp(Comp_name : String): ComponentPart {	
+
+	return self->any(c | c.parentComponent.name = Comp_name);	
+}
+
+
+
+mapping DelegationConnector:: lines() :Line
+{
+ 	var res1 := resolveoneIn(DiscretePort::ports, t : PortBlock| t.name.endsWith(self.port.name));
+ 	var res2 := resolveoneIn(DiscretePort::ports, t : PortBlock| t.name.endsWith(self.portPart.name)); 
+ 	var sub := resolveoneIn(Component::Comp2Sub, t : SubSystem| t.name.startsWith(self.parentComponent.name));
+ 	var subt := resolveoneIn(Component::Comp2Sub, t : SubSystem| t.name.startsWith(self.portPart.componentPart.name));
+ 	targetBlock := res2;
+ 	sourceBlock := res1;
+}
+
+mapping AssemblyConnector:: lines() :Line
+{
+	var subt := resolveoneIn(ComponentPart::ComptoSub, t : SubSystem| t.name.startsWith(self.portParts ->last().componentPart.name));
+	var sub := resolveoneIn(ComponentPart::ComptoSub, t : SubSystem| t.name.startsWith(self.portParts ->first().componentPart.name));
+ 	var res1 := resolveoneIn(DiscretePort::ports, t : OutPortBlock| t.name.endsWith(self.portParts ->first().name));
+ 	if(res1 = null)
+ 	{
+ 		res1 := resolveoneIn(HybridPort::ports, t : OutPortBlock| t.name.endsWith(self.portParts ->first().name));
+ 	};
+ 	if(res1 = null)
+ 	{
+ 		res1 := resolveoneIn(ContinuousPort::ports, t : OutPortBlock| t.name.endsWith(self.portParts ->first().name));
+ 	};
+ 	var res2 := resolveoneIn(DiscretePort::ports, t : InPortBlock| t.name.endsWith(self.portParts ->last().name)); 
+ 	if(res2 = null)
+ 	{
+ 		res2 := resolveoneIn(HybridPort::ports, t : InPortBlock| t.name.endsWith(self.portParts ->last().name));
+ 	};
+ 	if(res2 = null)
+ 	{
+ 		res2 := resolveoneIn(ContinuousPort::ports, t : InPortBlock| t.name.endsWith(self.portParts ->last().name));
+ 	};
+ 	targetPort := res2;
+ 	sourcePort := res1;
+ 	sourceBlock := sub;
+ 	targetBlock:= subt;
+}
+
+mapping ModelElementCategory :: Model() : SimulinkLibrary
+{
+		name := self.name;
+		blocks += self.modelElements[Component]-> map Comp2Sub();
+		blocks += self.modelElements[MessageTypeRepository] ->map Message();
+		blocks += self.modelElements[RealtimeStatechart] ->map Real2Statefl();
+		blocks += self.modelElements[ComponentInstanceConfiguration]-> map transform();	
+}
+	
+
+mapping RealtimeStatechart :: Real2Statefl() : simulink:: ChartBlock
+{
+	name := self.name; 
+	id := self.behavioralElement.toString();
+}
+
+
+mapping MessageTypeRepository :: Message(): SubSystem
+{	
+		name := self.name;
+		blocks += self.messageTypes ->map MsgtTypes();
+		
+}
+
+mapping MessageType :: MsgtTypes(): TriggerPort
+{	
+		name := self.name; 
+}
+
+
+
+mapping RealtimeStatechart :: Real2Chart() : stateflow::Chart
+{
+		name := self.name;
+		parameters +=  self.variables -> map parameters();
+		nodes += self.states ->map Real2State();
+		transitions +=  self.transitions -> map Transition();		
+}
+
+
+mapping Variable:: parameters() : simulink::Parameter
+{
+		name := self.name;
+		value := self.dataType.name;
+}
+
+mapping Region :: Real2Chart() : stateflow::Chart
+{
+	name := self.name;
+}
+
+mapping Behavior :: Real2State() : stateflow::Chart
+{
+	self.behavioralElement;
+	embeddedFunctions += self.operations -> map Op2Embedd();
+	
+}
+
+
+mapping State :: Real2State() : simulink::stateflow::State
+{
+		name := self.name;
+		initial := self.initial;
+		self.embeddedRegions ->forEach(i)
+		{
+			var x := resolveIn(RealtimeStatechart::Real2Chart, t : stateflow::Chart |
+			t.name.endsWith(i.name));
+			nodes += x;
+		};
+		nodes += self.embeddedRegions ->map Real2Chart();
+		outgoing +=  self.outgoingTransitions -> map Transition();
+		incoming += self.incomingTransitions -> map Transition();
+}
+
+
+mapping RealtimeStatechart :: Real2State() : stateflow::Chart
+{
+		name := self.name;
+		parameters +=  self.variables -> map parameters();
+		nodes += self.states ->map Real2State();
+		transitions +=  self.transitions -> map Transition();
+		embeddedFunctions += self.operations -> map Op2Embedd();
+		//local :=self.variables;				
+}
+
+
+mapping Operation:: Op2Embedd() : EmbeddedFunction
+{
+	name := self.name;
+	var res : String := '';
+	self.implementations ->forEach(i)
+	{
+		res := res + i.toString();
+	};
+		code := res;
+}
+
+
+
+mapping Transition :: Transition() :stateflow::Transition
+{
+	priority :=self.priority;
+	action += self.guard.oclAsType(ComparisonExpression) ->map actionlang();
+	action += self.triggerMessageEvent.message ->map action();
+	action += self.action ->map action();
+	action += self.raiseMessageEvent.message ->map raiseAction();
+	action += self.synchronization -> map SyncEvent();
+}
+
+
+mapping  ComparisonExpression :: actionlang() : stateflow::Action
+{	
+	var resleft : String := '';
+	var resright : String := '';
+	id := "GUARD_EXPRESSION";
+
+	if(self.leftExpression.oclIsKindOf(TypedNamedElementExpression))
+	{
+		resleft := self.leftExpression.oclAsType(TypedNamedElementExpression).typedNamedElement.name;
+	};
+	if(self.rightExpression.oclIsKindOf(TypedNamedElementExpression))
+	{
+		resright := self.rightExpression.oclAsType(TypedNamedElementExpression).typedNamedElement.name;
+	};
+	
+	if(self.rightExpression.oclIsKindOf(LiteralExpression))
+	{
+		resright := self.rightExpression.oclAsType(LiteralExpression).value;
+	};
+	
+	if(self.rightExpression.oclIsKindOf(ArithmeticExpression))
+	{
+		var temp  := self.rightExpression.oclAsType(ArithmeticExpression);
+		if(temp.leftExpression.oclIsKindOf(LiteralExpression))
+		{
+			resright := resright + temp.leftExpression.oclAsType(LiteralExpression).value + 
+			self.rightExpression.oclAsType(ArithmeticExpression).operator.toString();
+		};
+		
+		if(temp.rightExpression.oclIsKindOf(TypedNamedElementExpression))
+		{
+			resright := resright + temp.rightExpression.oclAsType(TypedNamedElementExpression).typedNamedElement.name;
+		};
+
+	};	
+	expression := resleft + self.operator.toString() + resright;
+}
+
+
+mapping  Message :: raiseAction() : stateflow::Action
+{	
+	id := "ACTION_SEND";
+	expression := self.instanceOf.name;
+	var x  = 0; 
+	original.objects()[MessageType].name->forEach(i){
+	x := x+1;
+	if(i = self.instanceOf.name)
+	{
+		id := id + ('_')+x.toString();
+	}
+	}
+}
+
+mapping  Message :: action() : stateflow::Action
+{	
+	id := "GUARD_EVENT";
+	expression := self.instanceOf.name;
+	var x  = 0; 
+	original.objects()[MessageType].name->forEach(i){
+	x := x+1;
+	if(i = self.instanceOf.name)
+	{
+		id := id + ('_')+x.toString();
+	}
+	}
+}
+
+mapping Synchronization :: SyncEvent() : stateflow::Action
+{	
+	id := self.kind.toString();
+	expression := self.syncChannel.name; 
+}
+
+
+mapping  Action :: action() : stateflow::Action
+{	
+	id := 'OPERATION_'+self.name;
+	
+	var res : String := '';
+
+	self.expressions ->forEach(i)
+	{
+		res := res + i.toString();
+	};
+
+	expression := res;
+}
+
+
+
+mapping Port :: ports() : PortBlock
+{	
+		name := self.name;
+}
+
+
+mapping AtomicComponent :: Comp2Sub(): SubSystem
+{
+		name:= self.name;
+		id:= self.componentKind.toString();
+		blocks += resolveIn(RealtimeStatechart::Real2Statefl, t :ChartBlock | t.id.endsWith(self.name));
+		blocks +=self.ports[Port] ->map ports();
+		lines += self.ports.connectors[AssemblyConnector] ->map lines();
+		lines += self.ports.connectors[DelegationConnector] ->map lines();
+		blocks+= original.objects()[ComponentPart].getComp(self.name) ->map ComptoSub();
+		
+} 
+
+
+mapping Component :: Comp2Sub(): SubSystem
+{
+	name:= self.name;
+	id:= "Structure_Component";
+	blocks +=self.ports->map ports();
+	blocks+= original.objects()[ComponentPart].getComp(self.name) ->map ComptoSub();
+	lines += self.ports.connectors[AssemblyConnector] ->map lines();
+	lines += self.ports.connectors[DelegationConnector] ->map lines();
+} 
+
+
+mapping ComponentPart::ComptoSub() : SubSystem
+{
+		name := self.name;
+		id :=self.componentType.name;
+		lines += self.portParts.connectors[AssemblyConnector] ->map lines();
+		lines += self.portParts.connectors[DelegationConnector] ->map lines();
+}
+
+
+mapping HybridPort::ports() : PortBlock
+{
+	 	init {
+	 	if(self.inPort)
+	 	{
+	 		 result:= object InPortBlock{
+	 		 name := self.kind.toString()+ "_" + self.name;	
+		 	 dimensions := self.samplingInterval.toString()+"_"+self.dataType.name; 
+		 	 };
+	 	}endif;
+	 	if(self.outPort)
+	 	{
+	 		result:= object OutPortBlock{
+	 		name := self.kind.toString()+ "_" + self.name;	
+		 	dimensions := self.samplingInterval.toString()+"_"+self.dataType.name; 
+		 	 };
+	 	}
+	 	}end{
+	 			assert(result.name <> null);
+	 	}	 
+}
+mapping ContinuousPort ::ports(): PortBlock
+{
+		init {
+	 	
+	 	if(self.inPort)
+	 	{
+	 		 result:= object InPortBlock{
+	 		 name := self.kind.toString()+ "_" + self.name;	
+		 	 }; 
+	 	}endif;
+	 	
+	 	if(self.outPort)
+	 	{
+	 		 result:= object OutPortBlock{
+	 		 name := self.kind.toString()+ "_" + self.name;	
+		 	 };
+	 	}
+	 	}end{
+	 			assert(result.name <> null);
+	 	}
+}
+
+mapping DiscretePort :: ports(): PortBlock
+{
+	
+	init {
+	 	
+	 	if(self.isDiscreteInPort)
+	 	{
+	 		 result:= object InPortBlock{
+	 		 name := self.name;	
+		 	 };
+	 		 
+	 	}endif;
+	 	
+	 	if(self.isDiscreteInOutPort)
+	 	{
+	 		 result:= object PortBlock{
+	 		 name :=  "BUS_" +self.name;	
+		 	 };
+	 	}endif;
+	 	
+	 	if(self.isDiscreteOutPort)
+	 	{
+	 		 result:= object OutPortBlock{
+		 	 };
+	 	}endif;
+	 	
+	 	}end{
+	 			assert(result.name <> null);
+	 	}
+}
+
+
+mapping ComponentInstance :: simSub(): SubSystem
+{
+		
+		name :=self.name;
+		id:= self.componentType.name;
+		var res1 := resolveoneIn(Component::Comp2Sub, t : SubSystem| t.name.startsWith(self.componentType.name));
+		parent := res1;
+		blocks += self.portInstances ->map ports();
+		self.parentCIC;
+}
+
+
+mapping ComponentInstanceConfiguration::transform() : SimulinkModel {
+	name := self.name;
+	blocks += self.componentInstances ->map simSub(); 
+	lines += self.portConnectorInstances[AssemblyConnectorInstance] ->lines();
+}
+
+
+mapping AssemblyConnectorInstance :: lines() : Line
+{
+	var res1 := resolveoneIn(PortInstance::ports, t : PortBlock| t.name.endsWith(self.connectorEndpointInstances ->first().name));
+ 	var res2 := resolveoneIn(PortInstance::ports, t : PortBlock| t.name.endsWith(self.connectorEndpointInstances ->last().name)); 
+ 	targetBlock := res2;
+ 	sourceBlock := res1;
+}
+
+mapping PortInstance :: ports() : PortBlock
+{	
+	 	name :=   self.name;	
+		initialCondition := self.portPart.componentPart.name;
+}
+
+

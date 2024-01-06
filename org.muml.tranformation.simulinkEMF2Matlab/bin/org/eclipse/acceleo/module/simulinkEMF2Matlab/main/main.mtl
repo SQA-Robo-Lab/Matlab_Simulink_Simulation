@@ -1,0 +1,20 @@
+[comment encoding = UTF-8 /]
+[module main('http://www.muml.org/simulink/1.0.0', 'http://www.muml.org/simulink/msglib/1.0.0', 'http://www.muml.org/simulink/msglib/buffer/1.0.0', 'http://www.muml.org/simulink/reconfiguration/1.0.0', 'http://www.muml.org/simulink/stateflow/1.0.0')/]
+[import org::eclipse::acceleo::module::simulinkEMF2Matlab::main::generate/]
+[import org::eclipse::acceleo::module::simulinkEMF2Matlab::main::generateInstanceConf/]
+[import org::eclipse::acceleo::module::simulinkEMF2Matlab::main::generateStateflow/]
+
+
+[template public mainChart(aChart : Chart)]
+	
+	[comment @main /]
+	[aChart.generateElement()/]
+	
+[/template]
+[template public mainSimulinkLibrary(aSimulinkLibrary : SimulinkLibrary)]
+	
+	[comment @main /]
+	[aSimulinkLibrary.generateComponents()/]
+	[aSimulinkLibrary.generateInstance()/]
+	
+[/template]

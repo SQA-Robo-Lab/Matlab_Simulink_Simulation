@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="generateInstanceConf" name="org.muml.tranformation.simulinkEMF2Matlab">
-    <property name="ECLIPSE_HOME" value="D:/Thesis/MUML_1_0-win32-x86_64/MUML_1_0"/>
-    <property name="ECLIPSE_WORKSPACE" value="../../../../workspace"/>
+    <property name="ECLIPSE_HOME" value="../../../../../Thesis/MUML_1_0-win32-x86_64/MUML_1_0"/>
+    <property name="ECLIPSE_WORKSPACE" value="../.."/>
 
     <!-- The classpath with only the dependencies used by the project -->
     <path id="org.muml.tranformation.simulinkEMF2Matlab.libraryclasspath">
@@ -18,7 +18,11 @@
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.equinox.app_1.3.400.v20150715-1528.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.ecore_2.12.0.v20160420-0247.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.common_2.12.0.v20160420-0247.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.cdo_4.5.0.v20160607-1254.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.cdo.common_4.5.0.v20160301-1326.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.ecore.change_2.11.0.v20160420-0247.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.emf.ecore.xmi_2.12.0.v20160420-0247.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.net4j.util_3.6.0.v20160607-1254.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.ocl_3.6.0.v20160523-1914.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/lpg.runtime.java_2.0.17.v201004271640.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.eclipse.ocl.common_1.4.0.v20160521-2033.jar"/>

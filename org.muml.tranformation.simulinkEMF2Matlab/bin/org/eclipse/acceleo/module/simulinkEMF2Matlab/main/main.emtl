@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
+  <mtl:Module name="main" nsURI="org::eclipse::acceleo::module::simulinkEMF2Matlab::main::main" startHeaderPosition="29" endHeaderPosition="278">
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#/"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//stateflow"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib/buffer"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//reconfiguration"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib/buffer"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib/buffer"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//reconfiguration"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//stateflow"/>
+    </input>
+    <imports href="platform:/resource/org.muml.tranformation.simulinkEMF2Matlab/bin/org/eclipse/acceleo/module/simulinkEMF2Matlab/main/generate.emtl#/0"/>
+    <imports href="platform:/resource/org.muml.tranformation.simulinkEMF2Matlab/bin/org/eclipse/acceleo/module/simulinkEMF2Matlab/main/generateInstanceConf.emtl#/0"/>
+    <imports href="generateStateflow.emtl#/0"/>
+    <ownedModuleElement xsi:type="mtl:Template" name="mainChart" visibility="Public" main="true">
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#xA;"/>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;"/>
+      <body xsi:type="mtl:TemplateInvocation">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <definition href="generateStateflow.emtl#/0/generateElement"/>
+        <argument xsi:type="ocl.ecore:VariableExp" name="aChart" referredVariable="/0/mainChart/aChart">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+        </argument>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#x9;"/>
+      <parameter name="aChart">
+        <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+      </parameter>
+    </ownedModuleElement>
+    <ownedModuleElement xsi:type="mtl:Template" name="mainSimulinkLibrary" visibility="Public" main="true">
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;&#xA;"/>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#x9;"/>
+      <body xsi:type="mtl:TemplateInvocation">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <definition href="platform:/resource/org.muml.tranformation.simulinkEMF2Matlab/bin/org/eclipse/acceleo/module/simulinkEMF2Matlab/main/generate.emtl#/0/generateComponents"/>
+        <argument xsi:type="ocl.ecore:VariableExp" name="aSimulinkLibrary" referredVariable="/0/mainSimulinkLibrary/aSimulinkLibrary">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+        </argument>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#x9;"/>
+      <body xsi:type="mtl:TemplateInvocation">
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <definition href="platform:/resource/org.muml.tranformation.simulinkEMF2Matlab/bin/org/eclipse/acceleo/module/simulinkEMF2Matlab/main/generateInstanceConf.emtl#/0/generateInstance"/>
+        <argument xsi:type="ocl.ecore:VariableExp" name="aSimulinkLibrary" referredVariable="/0/mainSimulinkLibrary/aSimulinkLibrary">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+        </argument>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#x9;"/>
+      <parameter name="aSimulinkLibrary">
+        <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+      </parameter>
+    </ownedModuleElement>
+  </mtl:Module>
+  <ecore:EPackage name="additions">
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_String_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Integer_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Real_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Real"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ecore_EObject_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eAnnotations>
+      <eOperations name="mainChart">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/mainChart"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="aChart">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="mainSimulinkLibrary">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/mainSimulinkLibrary"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="aSimulinkLibrary">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateComponents">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="platform:/resource/org.muml.tranformation.simulinkEMF2Matlab/bin/org/eclipse/acceleo/module/simulinkEMF2Matlab/main/generate.emtl#/0/generateComponents"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="aComponent">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateInstance">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="platform:/resource/org.muml.tranformation.simulinkEMF2Matlab/bin/org/eclipse/acceleo/module/simulinkEMF2Matlab/main/generateInstanceConf.emtl#/0/generateInstance"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="aSimulinkLibrary">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+        </eParameters>
+      </eOperations>
+      <eOperations name="generateElement">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL">
+          <references href="generateStateflow.emtl#/0/generateElement"/>
+        </eAnnotations>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="chart">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OclAny_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Collection(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Collection(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Sequence(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Sequence(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OrderedSet(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OrderedSet(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="stateflow_Chart_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="simulink_SimulinkLibrary_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+      </eAnnotations>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//stateflow/Chart"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ecore:EAnnotation source="positions">
+    <eAnnotations source="positions.0" references="/0/mainChart">
+      <details key="start" value="532"/>
+      <details key="end" value="639"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/mainChart/%">
+      <details key="start" value="576"/>
+      <details key="end" value="578"/>
+      <details key="line" value="9"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/mainChart/%.1">
+      <details key="start" value="597"/>
+      <details key="end" value="598"/>
+      <details key="line" value="11"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/mainChart/%.2">
+      <details key="start" value="599"/>
+      <details key="end" value="623"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.4" references="/0/mainChart/%.2/aChart">
+      <details key="start" value="599"/>
+      <details key="end" value="605"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.5" references="/0/mainChart/%.3">
+      <details key="start" value="625"/>
+      <details key="end" value="627"/>
+      <details key="line" value="12"/>
+    </eAnnotations>
+    <eAnnotations source="positions.6" references="/0/mainChart/aChart">
+      <details key="start" value="559"/>
+      <details key="end" value="573"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.7" references="/0/mainSimulinkLibrary">
+      <details key="start" value="640"/>
+      <details key="end" value="830"/>
+      <details key="line" value="14"/>
+    </eAnnotations>
+    <eAnnotations source="positions.8" references="/0/mainSimulinkLibrary/%">
+      <details key="start" value="714"/>
+      <details key="end" value="716"/>
+      <details key="line" value="15"/>
+    </eAnnotations>
+    <eAnnotations source="positions.9" references="/0/mainSimulinkLibrary/%.1">
+      <details key="start" value="735"/>
+      <details key="end" value="736"/>
+      <details key="line" value="17"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/mainSimulinkLibrary/%.2">
+      <details key="start" value="737"/>
+      <details key="end" value="774"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/mainSimulinkLibrary/%.2/aSimulinkLibrary">
+      <details key="start" value="737"/>
+      <details key="end" value="753"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.12" references="/0/mainSimulinkLibrary/%.3">
+      <details key="start" value="776"/>
+      <details key="end" value="778"/>
+      <details key="line" value="18"/>
+    </eAnnotations>
+    <eAnnotations source="positions.13" references="/0/mainSimulinkLibrary/%.4">
+      <details key="start" value="779"/>
+      <details key="end" value="814"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/mainSimulinkLibrary/%.4/aSimulinkLibrary">
+      <details key="start" value="779"/>
+      <details key="end" value="795"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.15" references="/0/mainSimulinkLibrary/%.5">
+      <details key="start" value="816"/>
+      <details key="end" value="818"/>
+      <details key="line" value="19"/>
+    </eAnnotations>
+    <eAnnotations source="positions.16" references="/0/mainSimulinkLibrary/aSimulinkLibrary">
+      <details key="start" value="677"/>
+      <details key="end" value="711"/>
+      <details key="line" value="14"/>
+    </eAnnotations>
+  </ecore:EAnnotation>
+</xmi:XMI>

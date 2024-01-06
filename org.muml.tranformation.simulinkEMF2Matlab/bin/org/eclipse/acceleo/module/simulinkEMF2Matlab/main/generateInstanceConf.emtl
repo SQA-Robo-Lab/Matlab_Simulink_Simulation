@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:mtl="http://www.eclipse.org/acceleo/mtl/3.0" xmlns:ocl.ecore="http://www.eclipse.org/ocl/1.1.0/Ecore">
+  <mtl:Module name="generateInstanceConf" nsURI="org::eclipse::acceleo::module::simulinkEMF2Matlab::main::generateInstanceConf" startHeaderPosition="29" endHeaderPosition="233">
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#/"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//stateflow"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//msglib/buffer"/>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//reconfiguration"/>
+    </input>
+    <input>
+      <takesTypesFrom href="http://www.muml.org/simulink/1.0.0#//stateflow"/>
+    </input>
+    <ownedModuleElement xsi:type="mtl:Template" name="generateInstance" visibility="Public" main="true">
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+      <body xsi:type="mtl:IfBlock">
+        <body xsi:type="mtl:ForBlock">
+          <body xsi:type="mtl:FileBlock" openMode="OverWrite">
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="modelname = '"/>
+            <body xsi:type="ocl.ecore:PropertyCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:VariableExp" name="simModel" referredVariable="/0/generateInstance/%.1/%/simModel">
+                <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+              </source>
+              <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="'&#xA;open_system(new_system(modelname));&#xA;&#xA;"/>
+            <body xsi:type="mtl:ForBlock">
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="model = '"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Element/id"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="';&#xA;load_system(model);&#xA;add_block('built-in/Subsystem','"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:PropertyCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                  </source>
+                  <referredProperty xsi:type="ecore:EReference" href="http://www.muml.org/simulink/1.0.0#//Block/parent"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="/"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="')&#xA;Simulink.BlockDiagram.copyContentsToSubsystem('"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Element/id"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="','"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:PropertyCallExp">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                  <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                  </source>
+                  <referredProperty xsi:type="ecore:EReference" href="http://www.muml.org/simulink/1.0.0#//Block/parent"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="/"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="');&#xA;set_param('"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="simModel" referredVariable="/0/generateInstance/%.1/%/simModel">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="/"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.3/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="','TreatAsAtomicUnit','on');&#xA;&#xA;"/>
+              <loopVariable name="subS">
+                <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+              </loopVariable>
+              <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/7/OrderedSet(Block)">
+                <source xsi:type="ocl.ecore:VariableExp" name="simModel" referredVariable="/0/generateInstance/%.1/%/simModel">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://www.muml.org/simulink/1.0.0#//SubSystem/allBlocks"/>
+              </iterSet>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;"/>
+            <body xsi:type="mtl:ForBlock">
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="Simulink.SubSystem.convertToModelReference(...&#xA;   '"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="simModel" referredVariable="/0/generateInstance/%.1/%/simModel">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="/"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.5/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="', ...&#xA;   '"/>
+              <body xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="subS" referredVariable="/0/generateInstance/%.1/%/%/%.5/subS">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </body>
+              <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="', ...&#xA;   'ReplaceSubsystem',true);&#xA;"/>
+              <loopVariable name="subS">
+                <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+              </loopVariable>
+              <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/7/OrderedSet(Block)">
+                <source xsi:type="ocl.ecore:VariableExp" name="simModel" referredVariable="/0/generateInstance/%.1/%/simModel">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+                </source>
+                <referredProperty xsi:type="ecore:EReference" href="http://www.muml.org/simulink/1.0.0#//SubSystem/allBlocks"/>
+              </iterSet>
+            </body>
+            <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="Simulink.BlockDiagram.arrangeSystem(modelname);&#xA;save_system(modelname);&#xA;close_system(modelname);&#xA;"/>
+            <fileUrl xsi:type="ocl.ecore:OperationCallExp">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              <source xsi:type="ocl.ecore:PropertyCallExp">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+                <source xsi:type="ocl.ecore:VariableExp" name="simModel" referredVariable="/0/generateInstance/%.1/%/simModel">
+                  <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+                </source>
+                <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+              </source>
+              <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol=".m">
+                <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+              </argument>
+              <referredOperation xsi:type="ecore:EOperation" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String_Class/concat"/>
+            </fileUrl>
+            <charset xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="UTF-8">
+              <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            </charset>
+          </body>
+          <loopVariable name="simModel">
+            <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+          </loopVariable>
+          <iterSet xsi:type="ocl.ecore:PropertyCallExp" eType="/7/OrderedSet(Block)">
+            <source xsi:type="ocl.ecore:VariableExp" name="aSimulinkLibrary" referredVariable="/0/generateInstance/aSimulinkLibrary">
+              <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+            </source>
+            <referredProperty xsi:type="ecore:EReference" href="http://www.muml.org/simulink/1.0.0#//SubSystem/allBlocks"/>
+          </iterSet>
+        </body>
+        <ifExpr xsi:type="ocl.ecore:OperationCallExp" referredOperation="/1/oclstdlib_String_Class/contains">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+          <source xsi:type="ocl.ecore:PropertyCallExp">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+            <source xsi:type="ocl.ecore:VariableExp" name="aSimulinkLibrary" referredVariable="/0/generateInstance/aSimulinkLibrary">
+              <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+            </source>
+            <referredProperty xsi:type="ecore:EAttribute" href="http://www.muml.org/simulink/1.0.0#//Block/name"/>
+          </source>
+          <argument xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="instance">
+            <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+          </argument>
+        </ifExpr>
+      </body>
+      <body xsi:type="ocl.ecore:StringLiteralExp" stringSymbol="&#xA;&#xA;"/>
+      <parameter name="aSimulinkLibrary">
+        <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+      </parameter>
+    </ownedModuleElement>
+  </mtl:Module>
+  <ecore:EPackage name="additions">
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_String_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+      </eAnnotations>
+      <eOperations name="contains">
+        <eAnnotations source="MTL non-standard"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Boolean"/>
+        <eParameters name="substring">
+          <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Integer_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Real_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Real"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ecore_EObject_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eAnnotations>
+      <eOperations name="generateInstance">
+        <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+          <contents xsi:type="ocl.ecore:Constraint"/>
+        </eAnnotations>
+        <eAnnotations source="MTL" references="/0/generateInstance"/>
+        <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+        <eParameters name="aSimulinkLibrary">
+          <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OclAny_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OclAny"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Collection(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Collection(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_Sequence(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Sequence(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="oclstdlib_OrderedSet(T)_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/OrderedSet(T)"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="simulink_SimulinkLibrary_Class">
+      <eAnnotations source="http://www.eclipse.org/ocl/1.1.0/OCL">
+        <references href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+      </eAnnotations>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/String"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ecore:EPackage name="collections">
+    <eClassifiers xsi:type="ocl.ecore:OrderedSetType" name="OrderedSet(Block)" instanceClassName="java.util.LinkedHashSet">
+      <elementType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//Block"/>
+    </eClassifiers>
+  </ecore:EPackage>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SubSystem"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkModel"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.muml.org/simulink/1.0.0#//SimulinkLibrary"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="i">
+    <eType xsi:type="ocl.ecore:PrimitiveType" href="http://www.eclipse.org/ocl/1.1.0/oclstdlib.ecore#/0/Integer"/>
+  </ocl.ecore:Variable>
+  <ocl.ecore:Variable name="self">
+    <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </ocl.ecore:Variable>
+  <ecore:EAnnotation source="positions">
+    <eAnnotations source="positions.0" references="/0/generateInstance">
+      <details key="start" value="147"/>
+      <details key="end" value="1107"/>
+      <details key="line" value="5"/>
+    </eAnnotations>
+    <eAnnotations source="positions.1" references="/0/generateInstance/%">
+      <details key="start" value="218"/>
+      <details key="end" value="219"/>
+      <details key="line" value="6"/>
+    </eAnnotations>
+    <eAnnotations source="positions.2" references="/0/generateInstance/%.1">
+      <details key="start" value="236"/>
+      <details key="end" value="1092"/>
+      <details key="line" value="8"/>
+    </eAnnotations>
+    <eAnnotations source="positions.3" references="/0/generateInstance/%.1/%">
+      <details key="start" value="284"/>
+      <details key="end" value="1086"/>
+      <details key="line" value="9"/>
+    </eAnnotations>
+    <eAnnotations source="positions.4" references="/0/generateInstance/%.1/%/%">
+      <details key="start" value="342"/>
+      <details key="end" value="1079"/>
+      <details key="line" value="10"/>
+    </eAnnotations>
+    <eAnnotations source="positions.5" references="/0/generateInstance/%.1/%/%/%">
+      <details key="start" value="394"/>
+      <details key="end" value="407"/>
+      <details key="line" value="11"/>
+    </eAnnotations>
+    <eAnnotations source="positions.6" references="/0/generateInstance/%.1/%/%/%.1">
+      <details key="start" value="408"/>
+      <details key="end" value="421"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.7" references="/0/generateInstance/%.1/%/%/%.1/simModel">
+      <details key="start" value="408"/>
+      <details key="end" value="416"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.8" references="/0/generateInstance/%.1/%/%/%.2">
+      <details key="start" value="423"/>
+      <details key="end" value="462"/>
+      <details key="line" value="11"/>
+    </eAnnotations>
+    <eAnnotations source="positions.9" references="/0/generateInstance/%.1/%/%/%.3">
+      <details key="start" value="462"/>
+      <details key="end" value="785"/>
+      <details key="line" value="14"/>
+    </eAnnotations>
+    <eAnnotations source="positions.10" references="/0/generateInstance/%.1/%/%/%.3/%">
+      <details key="start" value="504"/>
+      <details key="end" value="513"/>
+      <details key="line" value="15"/>
+    </eAnnotations>
+    <eAnnotations source="positions.11" references="/0/generateInstance/%.1/%/%/%.3/%.1">
+      <details key="start" value="514"/>
+      <details key="end" value="521"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.12" references="/0/generateInstance/%.1/%/%/%.3/%.1/subS">
+      <details key="start" value="514"/>
+      <details key="end" value="518"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.13" references="/0/generateInstance/%.1/%/%/%.3/%.2">
+      <details key="start" value="523"/>
+      <details key="end" value="578"/>
+      <details key="line" value="15"/>
+    </eAnnotations>
+    <eAnnotations source="positions.14" references="/0/generateInstance/%.1/%/%/%.3/%.3">
+      <details key="start" value="579"/>
+      <details key="end" value="595"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.15" references="/0/generateInstance/%.1/%/%/%.3/%.3/%">
+      <details key="start" value="579"/>
+      <details key="end" value="590"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.16" references="/0/generateInstance/%.1/%/%/%.3/%.3/%/subS">
+      <details key="start" value="579"/>
+      <details key="end" value="583"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.17" references="/0/generateInstance/%.1/%/%/%.3/%.4">
+      <details key="start" value="597"/>
+      <details key="end" value="598"/>
+      <details key="line" value="17"/>
+    </eAnnotations>
+    <eAnnotations source="positions.18" references="/0/generateInstance/%.1/%/%/%.3/%.5">
+      <details key="start" value="599"/>
+      <details key="end" value="608"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.19" references="/0/generateInstance/%.1/%/%/%.3/%.5/subS">
+      <details key="start" value="599"/>
+      <details key="end" value="603"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.20" references="/0/generateInstance/%.1/%/%/%.3/%.6">
+      <details key="start" value="610"/>
+      <details key="end" value="660"/>
+      <details key="line" value="17"/>
+    </eAnnotations>
+    <eAnnotations source="positions.21" references="/0/generateInstance/%.1/%/%/%.3/%.7">
+      <details key="start" value="661"/>
+      <details key="end" value="668"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.22" references="/0/generateInstance/%.1/%/%/%.3/%.7/subS">
+      <details key="start" value="661"/>
+      <details key="end" value="665"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.23" references="/0/generateInstance/%.1/%/%/%.3/%.8">
+      <details key="start" value="670"/>
+      <details key="end" value="673"/>
+      <details key="line" value="18"/>
+    </eAnnotations>
+    <eAnnotations source="positions.24" references="/0/generateInstance/%.1/%/%/%.3/%.9">
+      <details key="start" value="674"/>
+      <details key="end" value="690"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.25" references="/0/generateInstance/%.1/%/%/%.3/%.9/%">
+      <details key="start" value="674"/>
+      <details key="end" value="685"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.26" references="/0/generateInstance/%.1/%/%/%.3/%.9/%/subS">
+      <details key="start" value="674"/>
+      <details key="end" value="678"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.27" references="/0/generateInstance/%.1/%/%/%.3/%.10">
+      <details key="start" value="692"/>
+      <details key="end" value="693"/>
+      <details key="line" value="18"/>
+    </eAnnotations>
+    <eAnnotations source="positions.28" references="/0/generateInstance/%.1/%/%/%.3/%.11">
+      <details key="start" value="694"/>
+      <details key="end" value="703"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.29" references="/0/generateInstance/%.1/%/%/%.3/%.11/subS">
+      <details key="start" value="694"/>
+      <details key="end" value="698"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.30" references="/0/generateInstance/%.1/%/%/%.3/%.12">
+      <details key="start" value="705"/>
+      <details key="end" value="720"/>
+      <details key="line" value="18"/>
+    </eAnnotations>
+    <eAnnotations source="positions.31" references="/0/generateInstance/%.1/%/%/%.3/%.13">
+      <details key="start" value="721"/>
+      <details key="end" value="734"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.32" references="/0/generateInstance/%.1/%/%/%.3/%.13/simModel">
+      <details key="start" value="721"/>
+      <details key="end" value="729"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.33" references="/0/generateInstance/%.1/%/%/%.3/%.14">
+      <details key="start" value="736"/>
+      <details key="end" value="737"/>
+      <details key="line" value="19"/>
+    </eAnnotations>
+    <eAnnotations source="positions.34" references="/0/generateInstance/%.1/%/%/%.3/%.15">
+      <details key="start" value="738"/>
+      <details key="end" value="747"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.35" references="/0/generateInstance/%.1/%/%/%.3/%.15/subS">
+      <details key="start" value="738"/>
+      <details key="end" value="742"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.36" references="/0/generateInstance/%.1/%/%/%.3/%.16">
+      <details key="start" value="749"/>
+      <details key="end" value="779"/>
+      <details key="line" value="19"/>
+    </eAnnotations>
+    <eAnnotations source="positions.37" references="/0/generateInstance/%.1/%/%/%.3/subS">
+      <details key="start" value="468"/>
+      <details key="end" value="482"/>
+      <details key="line" value="14"/>
+    </eAnnotations>
+    <eAnnotations source="positions.38" references="/0/generateInstance/%.1/%/%/%.3/%.17">
+      <details key="start" value="483"/>
+      <details key="end" value="501"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.39" references="/0/generateInstance/%.1/%/%/%.3/%.17/simModel">
+      <details key="start" value="483"/>
+      <details key="end" value="491"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.40" references="/0/generateInstance/%.1/%/%/%.4">
+      <details key="start" value="786"/>
+      <details key="end" value="787"/>
+      <details key="line" value="22"/>
+    </eAnnotations>
+    <eAnnotations source="positions.41" references="/0/generateInstance/%.1/%/%/%.5">
+      <details key="start" value="787"/>
+      <details key="end" value="974"/>
+      <details key="line" value="23"/>
+    </eAnnotations>
+    <eAnnotations source="positions.42" references="/0/generateInstance/%.1/%/%/%.5/%">
+      <details key="start" value="829"/>
+      <details key="end" value="880"/>
+      <details key="line" value="24"/>
+    </eAnnotations>
+    <eAnnotations source="positions.43" references="/0/generateInstance/%.1/%/%/%.5/%.1">
+      <details key="start" value="881"/>
+      <details key="end" value="894"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.44" references="/0/generateInstance/%.1/%/%/%.5/%.1/simModel">
+      <details key="start" value="881"/>
+      <details key="end" value="889"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.45" references="/0/generateInstance/%.1/%/%/%.5/%.2">
+      <details key="start" value="896"/>
+      <details key="end" value="897"/>
+      <details key="line" value="25"/>
+    </eAnnotations>
+    <eAnnotations source="positions.46" references="/0/generateInstance/%.1/%/%/%.5/%.3">
+      <details key="start" value="898"/>
+      <details key="end" value="907"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.47" references="/0/generateInstance/%.1/%/%/%.5/%.3/subS">
+      <details key="start" value="898"/>
+      <details key="end" value="902"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.48" references="/0/generateInstance/%.1/%/%/%.5/%.4">
+      <details key="start" value="909"/>
+      <details key="end" value="920"/>
+      <details key="line" value="25"/>
+    </eAnnotations>
+    <eAnnotations source="positions.49" references="/0/generateInstance/%.1/%/%/%.5/%.5">
+      <details key="start" value="921"/>
+      <details key="end" value="930"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.50" references="/0/generateInstance/%.1/%/%/%.5/%.5/subS">
+      <details key="start" value="921"/>
+      <details key="end" value="925"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.51" references="/0/generateInstance/%.1/%/%/%.5/%.6">
+      <details key="start" value="932"/>
+      <details key="end" value="968"/>
+      <details key="line" value="26"/>
+    </eAnnotations>
+    <eAnnotations source="positions.52" references="/0/generateInstance/%.1/%/%/%.5/subS">
+      <details key="start" value="793"/>
+      <details key="end" value="807"/>
+      <details key="line" value="23"/>
+    </eAnnotations>
+    <eAnnotations source="positions.53" references="/0/generateInstance/%.1/%/%/%.5/%.7">
+      <details key="start" value="808"/>
+      <details key="end" value="826"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.54" references="/0/generateInstance/%.1/%/%/%.5/%.7/simModel">
+      <details key="start" value="808"/>
+      <details key="end" value="816"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.55" references="/0/generateInstance/%.1/%/%/%.6">
+      <details key="start" value="975"/>
+      <details key="end" value="1072"/>
+      <details key="line" value="29"/>
+    </eAnnotations>
+    <eAnnotations source="positions.56" references="/0/generateInstance/%.1/%/%/%.7">
+      <details key="start" value="349"/>
+      <details key="end" value="375"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.57" references="/0/generateInstance/%.1/%/%/%.7/%">
+      <details key="start" value="349"/>
+      <details key="end" value="362"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.58" references="/0/generateInstance/%.1/%/%/%.7/%/simModel">
+      <details key="start" value="349"/>
+      <details key="end" value="357"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.59" references="/0/generateInstance/%.1/%/%/%.7/%.1">
+      <details key="start" value="370"/>
+      <details key="end" value="374"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.60" references="/0/generateInstance/%.1/%/%/%.8">
+      <details key="start" value="384"/>
+      <details key="end" value="391"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.61" references="/0/generateInstance/%.1/%/simModel">
+      <details key="start" value="290"/>
+      <details key="end" value="312"/>
+      <details key="line" value="9"/>
+    </eAnnotations>
+    <eAnnotations source="positions.62" references="/0/generateInstance/%.1/%/%.1">
+      <details key="start" value="313"/>
+      <details key="end" value="339"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.63" references="/0/generateInstance/%.1/%/%.1/aSimulinkLibrary">
+      <details key="start" value="313"/>
+      <details key="end" value="329"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.64" references="/0/generateInstance/%.1/%.1">
+      <details key="start" value="240"/>
+      <details key="end" value="282"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.65" references="/0/generateInstance/%.1/%.1/%">
+      <details key="start" value="240"/>
+      <details key="end" value="261"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.66" references="/0/generateInstance/%.1/%.1/%/aSimulinkLibrary">
+      <details key="start" value="240"/>
+      <details key="end" value="256"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.67" references="/0/generateInstance/%.1/%.1/%.1">
+      <details key="start" value="271"/>
+      <details key="end" value="281"/>
+      <details key="line" value="0"/>
+    </eAnnotations>
+    <eAnnotations source="positions.68" references="/0/generateInstance/%.2">
+      <details key="start" value="1093"/>
+      <details key="end" value="1095"/>
+      <details key="line" value="35"/>
+    </eAnnotations>
+    <eAnnotations source="positions.69" references="/0/generateInstance/aSimulinkLibrary">
+      <details key="start" value="181"/>
+      <details key="end" value="215"/>
+      <details key="line" value="5"/>
+    </eAnnotations>
+  </ecore:EAnnotation>
+</xmi:XMI>
